@@ -1,6 +1,5 @@
 
 # React Native - Google Keep Notes app clone
-___
 
 ### Pakage used
 - Expo Router ([expo-router](https://www.npmjs.com/package/expo-router))
