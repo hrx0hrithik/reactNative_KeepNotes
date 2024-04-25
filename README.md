@@ -10,6 +10,6 @@
 - To use bun install `npm i -g bun`
 
 ## To set up the project 
-1 First download the file 
-2 then do simplly `bun install` or `bun i` to install dependance (its super  fast with bun)
-3 then `bun start`
+1. First download the file 
+2. then do simplly `bun install` or `bun i` to install dependance (its super  fast with bun)
+3. then `bun start`
