@@ -1,13 +1,18 @@
 import { router } from "expo-router";
-import React from "react";
+import React, { useContext } from "react";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
+import { NoteContext } from "../context/NoteContext";
 
 const AddNoteBtn = () => {
+  const { setCurrentNote } = useContext(NoteContext);
+
+  const AddingNote = () => {
+    setCurrentNote({});
+    router.push("/addNote");
+  };
+
   return (
-    <Pressable
-      onPress={() => router.push("/addNote")}
-      style={styles.addNoteWrapper}
-    >
+    <Pressable onPress={() => AddingNote()} style={styles.addNoteWrapper}>
       <View>
         <Image
           source={require("../assets/plus-icon.png")}

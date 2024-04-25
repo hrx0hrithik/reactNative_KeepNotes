@@ -1,15 +1,38 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
-import { AntDesign, MaterialCommunityIcons, Ionicons } from "@expo/vector-icons";
+import {
+  AntDesign,
+  MaterialCommunityIcons,
+  Ionicons,
+} from "@expo/vector-icons";
 import { router } from "expo-router";
+import { NoteContext } from "../context/NoteContext";
 
-const TopBar = () => {
+const TopBar = ({ title, description }) => {
+  const [newNote, setNewNote] = useState(null);
+
+  const { allNotes } = useContext(NoteContext);
+
+  useEffect(() => {
+    if (title || description) {
+      setNewNote({
+        title: title,
+        description: description,
+        noteId: allNotes.length + 1,
+      });
+    }
+  }, [title, description]);
+
+  const savingNewNote = () => {
+    newNote && allNotes.unshift(newNote);
+    router.navigate("/");
+    // console.log(allNotes)
+    console.log(newNote);
+  };
+
   return (
     <View style={styles.topBarWrapper}>
-      <Pressable
-        onPress={() => router.back()}
-        style={styles.backBtnWrapper}
-      >
+      <Pressable onPress={() => savingNewNote()} style={styles.backBtnWrapper}>
         <AntDesign name="arrowleft" size={24} color="black" />
       </Pressable>
       <View style={styles.pinAccessWrapper}>
@@ -43,8 +66,8 @@ const styles = StyleSheet.create({
     width: "100%",
     alignItems: "center",
     justifyContent: "space-between",
-    paddingTop: 12,
-    marginBottom: 12,
+    paddingTop: 18,
+    marginBottom: 8,
     marginHorizontal: 4,
     paddingVertical: 4,
     paddingHorizontal: 4,
