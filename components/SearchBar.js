@@ -1,18 +1,32 @@
-import React, { useState } from "react";
-import { Pressable, StyleSheet, TextInput, View } from "react-native";
+import React, { useContext, useState } from "react";
+import { Keyboard, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import { Ionicons, AntDesign, Feather, FontAwesome } from "@expo/vector-icons";
+import { DrawerContext } from "../context/DrawerContext";
+import { Drawer } from "react-native-drawer-layout";
 
 const SearchBar = ({ isFullWidth, setisFullWidth }) => {
   const [searchText, setSearchText] = useState("");
 
-  const toogleNotesView = () => {
+  const { leftDrawerOpen, setLeftDrawerOpen } = useContext(DrawerContext);
+
+  const toggleNotesView = () => {
     setisFullWidth((prev) => !prev);
   };
+
+  const toggleLeftDrawer = () => {
+    setLeftDrawerOpen((prevOpen) => !prevOpen);
+    Keyboard.dismiss()
+  }
 
   return (
     <View style={styles.searchBarWrapper}>
       <View style={styles.leftSearchIconWrapper}>
-        <Ionicons name="menu-sharp" size={24} color="black" />
+        <Pressable
+          style={{ padding: 2 }}
+          onPress={() => toggleLeftDrawer()}
+        >
+          <Ionicons name="menu-sharp" size={24} color="black" />
+        </Pressable>
         <TextInput
           placeholder="Search your notes"
           onChangeText={() => setSearchText}
@@ -22,7 +36,7 @@ const SearchBar = ({ isFullWidth, setisFullWidth }) => {
       </View>
       <View style={styles.rightSearchIconWrapper}>
         {isFullWidth ? (
-          <Pressable onPress={() => toogleNotesView()}>
+          <Pressable onPress={() => toggleNotesView()}>
             <AntDesign
               style={styles.rightSearchIcon}
               name="appstore-o"
@@ -31,7 +45,7 @@ const SearchBar = ({ isFullWidth, setisFullWidth }) => {
             />
           </Pressable>
         ) : (
-          <Pressable onPress={() => toogleNotesView()}>
+          <Pressable onPress={() => toggleNotesView()}>
             <Feather
               style={styles.rightSearchIcon}
               name="server"

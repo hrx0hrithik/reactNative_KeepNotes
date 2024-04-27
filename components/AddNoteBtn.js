@@ -4,11 +4,14 @@ import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import { NoteContext } from "../context/NoteContext";
 
 const AddNoteBtn = () => {
-  const { setCurrentNote } = useContext(NoteContext);
+
+  const { setTitle, setDescription, setCurrentNote, setNoteId } = useContext(NoteContext)
 
   const AddingNote = () => {
-    setCurrentNote({});
     router.push("/addNote");
+    setTitle("")
+    setDescription("")
+    setCurrentNote(null)
   };
 
   return (

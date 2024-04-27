@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useRef } from "react";
 import {
   KeyboardAvoidingView,
   ScrollView,
@@ -15,55 +15,52 @@ import { SafeAreaView } from "react-native-safe-area-context";
 const addingNote = () => {
   const ref_input2 = useRef();
 
-  const [ title, setTitle ] = useState(null)
-  const [ description, setDescription ] = useState(null)
+  const { currentNote, setDescription, setTitle, title, description } =
+    useContext(NoteContext);
 
-  const { currentNote } = useContext(NoteContext);
+  const handleTitleChange = (text) => {
+    setTitle(text);
+  };
 
-  useEffect(() => {
-    if(currentNote){
-      setTitle(currentNote.title)
-      setDescription(currentNote.description)
-    }
-  }, [])
-  
-
+  const handleDescriptionChange = (text) => {
+    setDescription(text);
+  };
   return (
     <>
-      <SafeAreaView style={styles.addingNoteWrapper}>
-        <TopBar title={title} description={description} />
-        <ScrollView style={styles.noteInputWrapper} >
-          <TextInput
-            style={styles.noteTitle}
-            autoCapitalize="sentences"
-            placeholder="Title"
-            enterKeyHint="next"
-            maxLength={100}
-            value={title}
-            onChangeText={setTitle}
-            onSubmitEditing={() => ref_input2.current.focus()}
-            blurOnSubmit={false}
-          />
-          <TextInput
-            ref={ref_input2}
-            editable
-            autoFocus
-            value={description}
-            autoCapitalize="sentences"
-            enterKeyHint="enter"
-            multiline
-            textAlignVertical="top"
-            numberOfLines={10}
-            maxLength={20000}
-            onChangeText={setDescription}
-            style={styles.noteDesc}
-            placeholder="Note"
-          />
-        </ScrollView>
-        <KeyboardAvoidingView />
-        <InputBottomBar />
-      </SafeAreaView>
-      <StatusBar backgroundColor={"#e9f1f7"} />
+        <SafeAreaView style={styles.addingNoteWrapper}>
+          <TopBar />
+          <ScrollView style={styles.noteInputWrapper}>
+            <TextInput
+              style={styles.noteTitle}
+              autoCapitalize="sentences"
+              placeholder="Title"
+              enterKeyHint="next"
+              maxLength={100}
+              value={title}
+              onChangeText={handleTitleChange}
+              onSubmitEditing={() => ref_input2.current.focus()}
+              blurOnSubmit={false}
+            />
+            <TextInput
+              ref={ref_input2}
+              editable
+              autoFocus
+              value={description}
+              autoCapitalize="sentences"
+              enterKeyHint="enter"
+              multiline
+              textAlignVertical="top"
+              numberOfLines={10}
+              maxLength={20000}
+              onChangeText={handleDescriptionChange}
+              style={styles.noteDesc}
+              placeholder="Note"
+            />
+          </ScrollView>
+          <KeyboardAvoidingView />
+          <InputBottomBar />
+        </SafeAreaView>
+        <StatusBar backgroundColor={"#e9f1f7"} />
     </>
   );
 };

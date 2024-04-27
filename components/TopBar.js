@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import {
   AntDesign,
@@ -8,31 +8,17 @@ import {
 import { router } from "expo-router";
 import { NoteContext } from "../context/NoteContext";
 
-const TopBar = ({ title, description }) => {
-  const [newNote, setNewNote] = useState(null);
+const TopBar = () => {
+  const { savingNote } = useContext(NoteContext);
 
-  const { allNotes } = useContext(NoteContext);
-
-  useEffect(() => {
-    if (title || description) {
-      setNewNote({
-        title: title,
-        description: description,
-        noteId: allNotes.length + 1,
-      });
-    }
-  }, [title, description]);
-
-  const savingNewNote = () => {
-    newNote && allNotes.unshift(newNote);
+  const handlingBack = () => {
+    savingNote();
     router.navigate("/");
-    // console.log(allNotes)
-    console.log(newNote);
   };
 
   return (
     <View style={styles.topBarWrapper}>
-      <Pressable onPress={() => savingNewNote()} style={styles.backBtnWrapper}>
+      <Pressable onPress={() => handlingBack()} style={styles.backBtnWrapper}>
         <AntDesign name="arrowleft" size={24} color="black" />
       </Pressable>
       <View style={styles.pinAccessWrapper}>
