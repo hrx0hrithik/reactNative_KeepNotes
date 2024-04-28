@@ -1,12 +1,15 @@
-import React, { useContext, useState } from "react";
-import { Keyboard, Pressable, StyleSheet, TextInput, View } from "react-native";
-import { Ionicons, AntDesign, Feather, FontAwesome } from "@expo/vector-icons";
+import React, { useContext } from "react";
+import { Keyboard, Pressable, StyleSheet, Text, View } from "react-native";
+import {
+  Ionicons,
+  AntDesign,
+  Feather,
+  MaterialIcons,
+} from "@expo/vector-icons";
 import { DrawerContext } from "../context/DrawerContext";
 
-const SearchBar = ({ isFullWidth, setIsFullWidth }) => {
-  const [searchText, setSearchText] = useState("");
-
-  const { leftDrawerOpen, setLeftDrawerOpen } = useContext(DrawerContext);
+const SecondaryTopBar = ({ barTitle, isFullWidth, setIsFullWidth }) => {
+  const { setLeftDrawerOpen, leftDrawerOpen } = useContext(DrawerContext);
 
   const toggleNotesView = () => {
     setIsFullWidth((prev) => !prev);
@@ -14,26 +17,33 @@ const SearchBar = ({ isFullWidth, setIsFullWidth }) => {
 
   const toggleLeftDrawer = () => {
     setLeftDrawerOpen((prevOpen) => !prevOpen);
-    Keyboard.dismiss()
-  }
+    Keyboard.dismiss();
+  };
 
   return (
     <View style={styles.searchBarWrapper}>
       <View style={styles.leftSearchIconWrapper}>
-        <Pressable
-          style={{ padding: 2 }}
-          onPress={() => toggleLeftDrawer()}
-        >
-          <Ionicons name="menu-sharp" size={24} color="black" />
+        <Pressable style={{ padding: 2 }} onPress={() => toggleLeftDrawer()}>
+          <Ionicons
+            style={styles.leftSearchIcon}
+            name="menu-sharp"
+            size={24}
+            color="black"
+          />
         </Pressable>
-        <TextInput
-          placeholder="Search your notes"
-          onChangeText={() => setSearchText}
-          value={searchText}
-          style={styles.searchBar}
-        />
+        <Text style={{ fontSize: 20, paddingTop: 2, marginLeft: 20 }}>
+          {barTitle}
+        </Text>
       </View>
       <View style={styles.rightSearchIconWrapper}>
+        <Pressable>
+          <MaterialIcons
+            style={styles.rightSearchIcon}
+            name="search"
+            size={24}
+            color="black"
+          />
+        </Pressable>
         {isFullWidth ? (
           <Pressable onPress={() => toggleNotesView()}>
             <AntDesign
@@ -53,45 +63,36 @@ const SearchBar = ({ isFullWidth, setIsFullWidth }) => {
             />
           </Pressable>
         )}
-        <FontAwesome
-          style={styles.rightSearchIcon}
-          name="user-circle-o"
-          size={24}
-          color="black"
-        />
       </View>
     </View>
   );
 };
 
+export default SecondaryTopBar;
+
 const styles = StyleSheet.create({
   searchBarWrapper: {
-    borderRadius: 24,
-    height: 45,
-    marginVertical: 18,
-    marginHorizontal: 12,
-    backgroundColor: "#e9f1f7",
+    paddingTop: 50,
+    paddingBottom: 14,
+    paddingHorizontal: 2,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
   },
-  searchBar: {
-    height: 24,
-    paddingHorizontal: 10,
-    fontSize: 16,
-  },
   leftSearchIconWrapper: {
     flexDirection: "row",
-    marginHorizontal: 8,
+    // marginHorizontal: 8,
   },
   rightSearchIconWrapper: {
     flexDirection: "row",
     marginHorizontal: 8,
+  },
+  leftSearchIcon: {
+    marginHorizontal: 4,
+    padding: 2,
   },
   rightSearchIcon: {
     marginHorizontal: 4,
     padding: 2,
   },
 });
-
-export default SearchBar;

@@ -17,10 +17,16 @@ import BottomBar from "../components/BottomBar";
 import NoteBox from "../components/NoteBox";
 import LeftDrawer from "../components/LeftDrawer";
 
+import * as NavigationBar from "expo-navigation-bar";
+
 import { NoteContext } from "../context/NoteContext";
 
+NavigationBar.setBackgroundColorAsync("#e9f1f7");
+NavigationBar.setButtonStyleAsync("dark");
+
 export default function App() {
-  const [isFullWidth, setisFullWidth] = useState(false);
+  
+  const [isFullWidth, setIsFullWidth] = useState(false);
 
   const { allNotes, noteId, deleteNote, editNote } = useContext(NoteContext);
 
@@ -52,7 +58,7 @@ export default function App() {
         <SafeAreaView style={styles.container}>
           <SearchBar
             isFullWidth={isFullWidth}
-            setisFullWidth={setisFullWidth}
+            setIsFullWidth={setIsFullWidth}
           />
           {allNotes.length > 0 ? (
             <ScrollView style={styles.scrollViewNotes}>

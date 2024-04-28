@@ -12,10 +12,6 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "androidNavigationBar": {
-      "backgroundColor": "#e9f1f7",
-      "barStyle": "dark-content"
-    },
     "assetBundlePatterns": [
       "**/*"
     ],

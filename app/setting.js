@@ -12,7 +12,7 @@ const setting = () => {
           style={styles.toggleListWrapper}
           onPress={() => setIsDarkMode((prev) => !prev)}
         >
-          <Text style={styles.toggleBtnItem}>Theme</Text>
+          <Text style={styles.toggleBtnItem}>Dark Theme</Text>
           <Switch style={styles.toggleBtnItem} value={isDarkMode} onValueChange={setIsDarkMode} />
         </Pressable>
       </View>

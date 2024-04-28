@@ -48,8 +48,8 @@ const LeftDrawer = ({ children }) => {
                 route.pathname === "/reminder" ? styles.active : null,
               ]}
               onPress={() => {
-                router.navigate("/reminder");
                 setLeftDrawerOpen(false);
+                router.navigate("/reminder");
               }}
             >
               <MaterialCommunityIcons
