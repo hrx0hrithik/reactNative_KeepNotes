@@ -26,8 +26,7 @@ export default function App() {
 
   useEffect(() => {
     const recentNote = allNotes.find((n) => n.noteId === noteId);
-    // console.log(noteId,"recent id")
-    console.log(recentNote, "recent note");
+    // console.log(recentNote, "recent note");
     // console.log(recentNote?.title,"recent note title")
     // console.log(recentNote?.description,"recent note desc")
 
@@ -41,7 +40,6 @@ export default function App() {
       // console.log("Is description empty?", isDescriptionEmpty);
 
       if (isTitleEmpty && isDescriptionEmpty) {
-        console.log("deleted note");
         ToastAndroid.show("Empty note discarded", ToastAndroid.LONG);
         deleteNote(noteId);
       }

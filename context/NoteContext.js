@@ -18,7 +18,7 @@ const NoteProvider = ({ children }) => {
       // update existing note
       const updatedNotes = allNotes.map((note) =>
         note.noteId === currentNote.noteId
-          ? { ...note, title, description, editedAt: new Date().toLocaleString() }
+          ? { ...note, title, description, editedAt: new Date() }
           : note
       );
       setAllNotes(updatedNotes);
@@ -48,7 +48,6 @@ const NoteProvider = ({ children }) => {
   const deleteNote = (id) => {
       const updatedNotes = allNotes.filter((note) => note.noteId !== id);
       setAllNotes(updatedNotes);
-      console.log("Note deleted");
   };
 
   return (
