@@ -1,28 +1,26 @@
 import React, { useState } from "react";
 import { SafeAreaView, StyleSheet, Text, View } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
 import SecondaryTopBar from "../components/SecondaryTopBar";
 import LeftDrawer from "../components/LeftDrawer";
 
 const deletedNotes = () => {
-  const [isFullWidth, setIsFullWidth] = useState(false);
 
   return (
     <LeftDrawer>
     <SafeAreaView style={styles.container}>
       <SecondaryTopBar
         barTitle="Deleted"
-        isFullWidth={isFullWidth}
-        setIsFullWidth={setIsFullWidth}
+        threeDotMenu={true}
       />
       <View style={styles.noNotesWrapper}>
-        <Ionicons
-          name="archive-outline"
+      <AntDesign
+                name="delete"
           size={120}
           color="#ffc954"
           style={{ marginBottom: 16 }}
         />
-        <Text>Your Archived notes appear here</Text>
+        <Text>No notes in Recycle bin</Text>
       </View>
     </SafeAreaView>
     </LeftDrawer>

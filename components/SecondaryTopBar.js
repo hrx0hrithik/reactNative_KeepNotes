@@ -5,11 +5,17 @@ import {
   AntDesign,
   Feather,
   MaterialIcons,
+  Entypo,
 } from "@expo/vector-icons";
 import { DrawerContext } from "../context/DrawerContext";
 
-const SecondaryTopBar = ({ barTitle, isFullWidth, setIsFullWidth }) => {
-  const { setLeftDrawerOpen, leftDrawerOpen } = useContext(DrawerContext);
+const SecondaryTopBar = ({
+  barTitle,
+  isFullWidth,
+  setIsFullWidth,
+  threeDotMenu,
+}) => {
+  const { setLeftDrawerOpen } = useContext(DrawerContext);
 
   const toggleNotesView = () => {
     setIsFullWidth((prev) => !prev);
@@ -35,35 +41,48 @@ const SecondaryTopBar = ({ barTitle, isFullWidth, setIsFullWidth }) => {
           {barTitle}
         </Text>
       </View>
-      <View style={styles.rightSearchIconWrapper}>
-        <Pressable>
-          <MaterialIcons
-            style={styles.rightSearchIcon}
-            name="search"
-            size={24}
-            color="black"
-          />
-        </Pressable>
-        {isFullWidth ? (
-          <Pressable onPress={() => toggleNotesView()}>
-            <AntDesign
+      {threeDotMenu ? (
+        <View style={styles.rightSearchIconWrapper}>
+          <Pressable>
+            <Entypo
               style={styles.rightSearchIcon}
-              name="appstore-o"
+              name="dots-three-vertical"
+              size={20}
+              color="black"
+            />
+          </Pressable>
+        </View>
+      ) : (
+        <View style={styles.rightSearchIconWrapper}>
+          <Pressable>
+            <MaterialIcons
+              style={styles.rightSearchIcon}
+              name="search"
               size={24}
               color="black"
             />
           </Pressable>
-        ) : (
-          <Pressable onPress={() => toggleNotesView()}>
-            <Feather
-              style={styles.rightSearchIcon}
-              name="server"
-              size={24}
-              color="black"
-            />
-          </Pressable>
-        )}
-      </View>
+          {isFullWidth ? (
+            <Pressable onPress={() => toggleNotesView()}>
+              <AntDesign
+                style={styles.rightSearchIcon}
+                name="appstore-o"
+                size={24}
+                color="black"
+              />
+            </Pressable>
+          ) : (
+            <Pressable onPress={() => toggleNotesView()}>
+              <Feather
+                style={styles.rightSearchIcon}
+                name="server"
+                size={24}
+                color="black"
+              />
+            </Pressable>
+          )}
+        </View>
+      )}
     </View>
   );
 };

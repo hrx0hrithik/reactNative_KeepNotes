@@ -26,7 +26,8 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         paddingHorizontal: 20,
-        marginTop: 10,
+        paddingTop: 10,
+        backgroundColor: "#e9f1f7"
     },
     toggleListWrapper: {
         flexDirection: "row",

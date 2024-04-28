@@ -90,7 +90,7 @@ export default function App() {
           <BottomBar />
         </SafeAreaView>
       </LeftDrawer>
-      <StatusBar backgroundColor={"#e9f1f7"} />
+      <StatusBar backgroundColor={"#e9f1f7"} barStyle={"dark-content"} />
     </>
   );
 }
