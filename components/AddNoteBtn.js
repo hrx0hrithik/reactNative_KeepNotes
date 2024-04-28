@@ -2,6 +2,7 @@ import { router } from "expo-router";
 import React, { useContext } from "react";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import { NoteContext } from "../context/NoteContext";
+import uuid from 'react-native-uuid';
 
 const AddNoteBtn = () => {
 
@@ -11,6 +12,7 @@ const AddNoteBtn = () => {
     router.push("/addNote");
     setTitle("")
     setDescription("")
+    setNoteId(uuid.v4())
     setCurrentNote(null)
   };
 

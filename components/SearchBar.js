@@ -6,7 +6,7 @@ import { DrawerContext } from "../context/DrawerContext";
 const SearchBar = ({ isFullWidth, setIsFullWidth }) => {
   const [searchText, setSearchText] = useState("");
 
-  const { leftDrawerOpen, setLeftDrawerOpen } = useContext(DrawerContext);
+  const { setLeftDrawerOpen } = useContext(DrawerContext);
 
   const toggleNotesView = () => {
     setIsFullWidth((prev) => !prev);
@@ -14,16 +14,13 @@ const SearchBar = ({ isFullWidth, setIsFullWidth }) => {
 
   const toggleLeftDrawer = () => {
     setLeftDrawerOpen((prevOpen) => !prevOpen);
-    Keyboard.dismiss()
-  }
+    Keyboard.dismiss();
+  };
 
   return (
     <View style={styles.searchBarWrapper}>
       <View style={styles.leftSearchIconWrapper}>
-        <Pressable
-          style={{ padding: 2 }}
-          onPress={() => toggleLeftDrawer()}
-        >
+        <Pressable style={{ padding: 2 }} onPress={() => toggleLeftDrawer()}>
           <Ionicons name="menu-sharp" size={24} color="black" />
         </Pressable>
         <TextInput

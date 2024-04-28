@@ -32,18 +32,12 @@ export default function App() {
 
   useEffect(() => {
     const recentNote = allNotes.find((n) => n.noteId === noteId);
-    // console.log(recentNote, "recent note");
-    // console.log(recentNote?.title,"recent note title")
-    // console.log(recentNote?.description,"recent note desc")
 
     if (recentNote) {
       const isTitleEmpty =
         !recentNote.title || recentNote.title.trim().length === 0;
       const isDescriptionEmpty =
         !recentNote.description || recentNote.description.trim().length === 0;
-
-      // console.log("Is title empty?", isTitleEmpty);
-      // console.log("Is description empty?", isDescriptionEmpty);
 
       if (isTitleEmpty && isDescriptionEmpty) {
         ToastAndroid.show("Empty note discarded", ToastAndroid.LONG);

@@ -9,9 +9,9 @@ const NoteProvider = ({ children }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [noteId, setNoteId] = useState(null);
+  // const [deletedNotes, setDeletedNotes] = useState([])
 
-  const tempNoteId = allNotes.length + 1;
-  // const date = new Date();
+  // const tempNoteId = allNotes.length + 1;
 
   const savingNote = () => {
     if (currentNote) {
@@ -27,14 +27,14 @@ const NoteProvider = ({ children }) => {
       const newNote = {
         title: title,
         description: description,
-        noteId: tempNoteId,
+        noteId: noteId,
         editedAt: new Date().toLocaleString(),
       };
       setAllNotes([newNote, ...allNotes]);
       setTitle("");
-      setNoteId(tempNoteId);
       setDescription("");
     }
+    console.log(noteId)
     router.navigate("/");
   };
 
@@ -46,6 +46,8 @@ const NoteProvider = ({ children }) => {
   };  
 
   const deleteNote = (id) => {
+      // const noteToDelete = allNotes.find((n) => n.noteId === id )
+      // setDeletedNotes([noteToDelete, ...deletedNotes])
       const updatedNotes = allNotes.filter((note) => note.noteId !== id);
       setAllNotes(updatedNotes);
   };
@@ -65,6 +67,7 @@ const NoteProvider = ({ children }) => {
         editNote,
         deleteNote,
         noteId,
+        setNoteId,
       }}
     >
       {children}

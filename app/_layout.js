@@ -12,7 +12,7 @@ export default function HomeLayout() {
             <Stack.Screen name="index" options={{ headerShown: false }} />
             <Stack.Screen name="addNote" options={{ headerShown: false }} />
             <Stack.Screen name="setting" options={{ title: "Setting" }} />
-            <Stack.Screen name="deletedNotes" options={{ title: "Deleted" }} />
+            <Stack.Screen name="deletedNotes" options={{ headerShown: false }} />
             <Stack.Screen name="reminder" options={{ headerShown: false }} />
             <Stack.Screen name="archivedNotes" options={{ headerShown: false }} />
             <Stack.Screen name="newLabel" options={{ title: "Edit labels" }} />
