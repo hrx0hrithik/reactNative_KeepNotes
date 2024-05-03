@@ -7,38 +7,51 @@ import {
 } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { NoteContext } from "../context/NoteContext";
+import { ThemeContext } from "../context/ThemeContext";
+import { AddnoteModalContext } from "../context/AddnoteModalContext";
 
-const TopBar = () => {
+const TopBar = ({ setShowModal }) => {
   const { savingNote } = useContext(NoteContext);
+  const { autoTheme } = useContext(ThemeContext);
+  const { openModal, setOpenModal } = useContext(AddnoteModalContext);
+
 
   const handlingBack = () => {
+    // setOpenModal(false)
     savingNote();
-    router.navigate("/");
+    router.back()
   };
 
+  const topBarWrapperTheme =
+    autoTheme === "light" ? styles.lightTheme : styles.darkTheme;
+
   return (
-    <View style={styles.topBarWrapper}>
+    <View style={[styles.topBarWrapper, topBarWrapperTheme]}>
       <Pressable onPress={() => handlingBack()} style={styles.backBtnWrapper}>
-        <AntDesign name="arrowleft" size={24} color="black" />
+        <AntDesign
+          name="arrowleft"
+          size={24}
+          color={autoTheme === "light" ? "#000" : "#fff"}
+        />
       </Pressable>
       <View style={styles.pinAccessWrapper}>
         <MaterialCommunityIcons
           style={styles.pinAccess}
           name="pin-outline"
           size={24}
-          color="black"
+          color={autoTheme === "light" ? "#000" : "#fff"}
         />
         <MaterialCommunityIcons
           style={styles.pinAccess}
           name="bell-plus-outline"
           size={24}
-          color="black"
+          color={autoTheme === "light" ? "#000" : "#fff"}
         />
         <Ionicons
           style={styles.pinAccess}
           name="archive-outline"
           size={24}
-          color="black"
+          color={autoTheme === "light" ? "#000" : "#fff"}
         />
       </View>
     </View>
@@ -48,15 +61,19 @@ const TopBar = () => {
 const styles = StyleSheet.create({
   topBarWrapper: {
     flexDirection: "row",
-    backgroundColor: "#e9f1f7",
     width: "100%",
     alignItems: "center",
     justifyContent: "space-between",
     paddingTop: 18,
     marginBottom: 8,
-    marginHorizontal: 4,
-    paddingVertical: 4,
-    paddingHorizontal: 4,
+    paddingBottom: 8,
+    paddingHorizontal: 8,
+  },
+  lightTheme: {
+    backgroundColor: "#e9f1f7",
+  },
+  darkTheme: {
+    backgroundColor: "#12121a",
   },
   backBtnWrapper: {
     padding: 4,

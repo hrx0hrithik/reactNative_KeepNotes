@@ -1,22 +1,30 @@
-import React, { useContext, useRef } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import {
+  Keyboard,
   KeyboardAvoidingView,
+  Modal,
   ScrollView,
   StatusBar,
   StyleSheet,
   TextInput,
-  View,
 } from "react-native";
 import TopBar from "../components/TopBar";
 import InputBottomBar from "../components/InputBottomBar";
 import { NoteContext } from "../context/NoteContext";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { ThemeContext } from "../context/ThemeContext";
+import { AddnoteModalContext } from "../context/AddnoteModalContext";
 
-const addingNote = () => {
+const AddNote = () => {
   const ref_input2 = useRef();
 
-  const { currentNote, setDescription, setTitle, title, description } =
+  const { savingNote, setDescription, setTitle, title, description } =
     useContext(NoteContext);
+  const { autoTheme } = useContext(ThemeContext);
+  const { openModal, setOpenModal } = useContext(AddnoteModalContext);
+
+  const themeContainerStyle =
+    autoTheme === "light" ? styles.lightContainer : styles.darkContainer; 
 
   const handleTitleChange = (text) => {
     setTitle(text);
@@ -25,15 +33,28 @@ const addingNote = () => {
   const handleDescriptionChange = (text) => {
     setDescription(text);
   };
+
+  const handlingBack = () => {
+    savingNote();
+    setOpenModal(false);
+  };
+
   return (
     <>
-        <SafeAreaView style={styles.addingNoteWrapper}>
+      {/* <Modal
+        visible={openModal}
+        animationType="fade"
+        onRequestClose={handlingBack}
+        style={{ zIndex: 2 }}
+      > */}
+        <SafeAreaView style={[styles.addingNoteWrapper, themeContainerStyle]}>
           <TopBar />
           <ScrollView style={styles.noteInputWrapper}>
             <TextInput
-              style={styles.noteTitle}
+              style={[styles.noteTitle, themeContainerStyle]}
               autoCapitalize="sentences"
               placeholder="Title"
+              placeholderTextColor={autoTheme === "light" ? "#000" : "#fff"}
               enterKeyHint="next"
               maxLength={100}
               value={title}
@@ -53,17 +74,22 @@ const addingNote = () => {
               numberOfLines={10}
               maxLength={20000}
               onChangeText={handleDescriptionChange}
-              style={styles.noteDesc}
+              style={[styles.noteDesc, themeContainerStyle]}
               placeholder="Note"
+              placeholderTextColor={autoTheme === "light" ? "#000" : "#fff"}
             />
           </ScrollView>
           <KeyboardAvoidingView />
           <InputBottomBar />
         </SafeAreaView>
-        <StatusBar backgroundColor={"#e9f1f7"} />
+      {/* </Modal> */}
+      <StatusBar
+        backgroundColor={autoTheme === "light" ? "#e9f1f7" : "#12121a"}
+      />
     </>
   );
 };
+export default AddNote;
 
 const styles = StyleSheet.create({
   addingNoteWrapper: {
@@ -85,6 +111,12 @@ const styles = StyleSheet.create({
     paddingVertical: 2,
     width: "100%",
   },
+  lightContainer: {
+    backgroundColor: "#fff",
+    color: "#000",
+  },
+  darkContainer: {
+    backgroundColor: "#12121a",
+    color: "#fff",
+  },
 });
-
-export default addingNote;

@@ -8,6 +8,7 @@ import {
   Entypo,
 } from "@expo/vector-icons";
 import { DrawerContext } from "../context/DrawerContext";
+import { ThemeContext } from "../context/ThemeContext";
 
 const SecondaryTopBar = ({
   barTitle,
@@ -16,6 +17,10 @@ const SecondaryTopBar = ({
   threeDotMenu,
 }) => {
   const { setLeftDrawerOpen } = useContext(DrawerContext);
+  const { autoTheme } = useContext(ThemeContext);
+
+  const searchBarWrapperTheme =
+  autoTheme === "light" ? styles.lightTheme : styles.darkTheme;
 
   const toggleNotesView = () => {
     setIsFullWidth((prev) => !prev);
@@ -27,17 +32,17 @@ const SecondaryTopBar = ({
   };
 
   return (
-    <View style={styles.searchBarWrapper}>
+    <View style={[styles.searchBarWrapper, searchBarWrapperTheme]}>
       <View style={styles.leftSearchIconWrapper}>
         <Pressable style={{ padding: 2 }} onPress={() => toggleLeftDrawer()}>
           <Ionicons
             style={styles.leftSearchIcon}
             name="menu-sharp"
             size={24}
-            color="black"
+            color={autoTheme === "light" ? "#000" : "#fff"}
           />
         </Pressable>
-        <Text style={{ fontSize: 20, paddingTop: 2, marginLeft: 20 }}>
+        <Text style={[{ fontSize: 20, paddingTop: 2, marginLeft: 20 }, searchBarWrapperTheme]}>
           {barTitle}
         </Text>
       </View>
@@ -48,7 +53,7 @@ const SecondaryTopBar = ({
               style={styles.rightSearchIcon}
               name="dots-three-vertical"
               size={20}
-              color="black"
+              color={autoTheme === "light" ? "#000" : "#fff"}
             />
           </Pressable>
         </View>
@@ -59,7 +64,7 @@ const SecondaryTopBar = ({
               style={styles.rightSearchIcon}
               name="search"
               size={24}
-              color="black"
+              color={autoTheme === "light" ? "#000" : "#fff"}
             />
           </Pressable>
           {isFullWidth ? (
@@ -68,7 +73,7 @@ const SecondaryTopBar = ({
                 style={styles.rightSearchIcon}
                 name="appstore-o"
                 size={24}
-                color="black"
+                color={autoTheme === "light" ? "#000" : "#fff"}
               />
             </Pressable>
           ) : (
@@ -77,7 +82,7 @@ const SecondaryTopBar = ({
                 style={styles.rightSearchIcon}
                 name="server"
                 size={24}
-                color="black"
+                color={autoTheme === "light" ? "#000" : "#fff"}
               />
             </Pressable>
           )}
@@ -98,9 +103,16 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
   },
+  lightTheme: {
+    backgroundColor: "#e9f1f7",
+    color: "#000",
+  },
+  darkTheme: {
+    backgroundColor: "#20212e",
+    color: "#fff",
+  },
   leftSearchIconWrapper: {
     flexDirection: "row",
-    // marginHorizontal: 8,
   },
   rightSearchIconWrapper: {
     flexDirection: "row",

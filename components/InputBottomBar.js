@@ -13,9 +13,12 @@ import {
 import { useActionSheet } from "@expo/react-native-action-sheet";
 import { NoteContext } from "../context/NoteContext";
 import { router } from "expo-router";
+import { ThemeContext } from "../context/ThemeContext";
 
 const InputBottomBar = () => {
   const { deleteNote, currentNote } = useContext(NoteContext);
+  const { autoTheme } = useContext(ThemeContext);
+
   const { showActionSheetWithOptions } = useActionSheet();
 
   let date = null;
@@ -49,6 +52,7 @@ const InputBottomBar = () => {
         options,
         containerStyle: {
           backgroundColor: "#e9f1f7",
+          zIndex: 30,
         },
         cancelButtonIndex,
         icons: [
@@ -145,15 +149,18 @@ const InputBottomBar = () => {
     );
   };
 
+  const bottomBarWrapperTheme =
+  autoTheme === "light" ? styles.lightTheme : styles.darkTheme;
+
   return (
-    <View style={styles.bottomBarWrapper}>
+    <View style={[styles.bottomBarWrapper, bottomBarWrapperTheme]}>
       <View style={{ flexDirection: "row" }}>
         <Pressable onPress={InputBottomAddNoteElementMenu}>
           <Octicons
             style={styles.leftBottomBtn}
             name="diff-added"
             size={22}
-            color="black"
+            color={autoTheme === "light" ? "#000" : "#fff"}
           />
         </Pressable>
         <Pressable>
@@ -161,14 +168,14 @@ const InputBottomBar = () => {
           style={styles.leftBottomBtn}
           name="palette-outline"
           size={22}
-          color="black"
+          color={autoTheme === "light" ? "#000" : "#fff"}
         />
         </Pressable>
         <Foundation
           style={styles.leftBottomBtn}
           name="text-color"
           size={22}
-          color="black"
+          color={autoTheme === "light" ? "#000" : "#fff"}
         />
         <Text style={styles.leftBottomBtn}>Edited { (editDate === currentDate) ? editTime : editDate}</Text>
       </View>
@@ -176,7 +183,7 @@ const InputBottomBar = () => {
         onPress={InputBottomThreeDotMenu}
         style={{ padding: 4, marginRight: 6 }}
       >
-        <Entypo name="dots-three-vertical" size={18} color="black" />
+        <Entypo name="dots-three-vertical" size={18} color={autoTheme === "light" ? "#000" : "#fff"} />
       </Pressable>
     </View>
   );
@@ -186,7 +193,6 @@ const styles = StyleSheet.create({
   bottomBarWrapper: {
     position: "absolute",
     bottom: 0,
-    backgroundColor: "#e9f1f7",
     width: "100%",
     height: 50,
     flexDirection: "row",
@@ -194,6 +200,12 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     paddingHorizontal: 4,
     paddingBottom: 4,
+  },
+  lightTheme: {
+    backgroundColor: "#e9f1f7",
+  },
+  darkTheme: {
+    backgroundColor: "#12121a",
   },
   leftBottomBtn: {
     marginHorizontal: 6,

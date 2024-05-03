@@ -2,22 +2,33 @@ import { router } from "expo-router";
 import React, { useContext } from "react";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import { NoteContext } from "../context/NoteContext";
-import uuid from 'react-native-uuid';
+import uuid from "react-native-uuid";
+import { ThemeContext } from "../context/ThemeContext";
+import { AddnoteModalContext } from "../context/AddnoteModalContext";
 
 const AddNoteBtn = () => {
-
-  const { setTitle, setDescription, setCurrentNote, setNoteId } = useContext(NoteContext)
+  const { setTitle, setDescription, setCurrentNote, setNoteId } =
+    useContext(NoteContext);
+  const { autoTheme } = useContext(ThemeContext);
+  const { openModal, setOpenModal } = useContext(AddnoteModalContext);
 
   const AddingNote = () => {
     router.push("/addNote");
-    setTitle("")
-    setDescription("")
-    setNoteId(uuid.v4())
-    setCurrentNote(null)
+    setOpenModal(true)
+    setTitle("");
+    setDescription("");
+    setNoteId(uuid.v4());
+    setCurrentNote(null);
   };
 
+  const addNoteWrapperTheme =
+    autoTheme === "light" ? styles.lightTheme : styles.darkTheme;
+
   return (
-    <Pressable onPress={() => AddingNote()} style={styles.addNoteWrapper}>
+    <Pressable
+      onPress={() => AddingNote()}
+      style={[styles.addNoteWrapper, addNoteWrapperTheme]}
+    >
       <View>
         <Image
           source={require("../assets/plus-icon.png")}
@@ -45,6 +56,12 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.8,
     shadowRadius: 2,
     elevation: 5,
+  },
+  lightTheme: {
+    backgroundColor: "#e9f1f7",
+  },
+  darkTheme: {
+    backgroundColor: "#20212e",
   },
 });
 

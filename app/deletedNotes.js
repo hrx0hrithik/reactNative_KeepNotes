@@ -1,14 +1,19 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { SafeAreaView, StyleSheet, Text, View } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import SecondaryTopBar from "../components/SecondaryTopBar";
 import LeftDrawer from "../components/LeftDrawer";
+import { ThemeContext } from "../context/ThemeContext";
 
 const deletedNotes = () => {
+  const { autoTheme } = useContext(ThemeContext);
+
+  const themeContainerStyle =
+  autoTheme === "light" ? styles.lightContainer : styles.darkContainer;
 
   return (
     <LeftDrawer>
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container, themeContainerStyle]}>
       <SecondaryTopBar
         barTitle="Deleted"
         threeDotMenu={true}
@@ -17,10 +22,12 @@ const deletedNotes = () => {
       <AntDesign
                 name="delete"
           size={120}
-          color="#ffc954"
+          color={autoTheme === "light" ? "#ffc954" : "#fff"}
           style={{ marginBottom: 16 }}
         />
-        <Text>No notes in Recycle bin</Text>
+        <Text style={
+              autoTheme === "light" ? { color: "#000" } : { color: "#fff" }
+            }>No notes in Recycle bin</Text>
       </View>
     </SafeAreaView>
     </LeftDrawer>
@@ -34,6 +41,12 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "100%",
     backgroundColor: "#fff",
+  },
+  lightContainer: {
+    backgroundColor: "#fff",
+  },
+  darkContainer: {
+    backgroundColor: "#12121a",
   },
   noNotesWrapper: {
     flexDirection: "column",

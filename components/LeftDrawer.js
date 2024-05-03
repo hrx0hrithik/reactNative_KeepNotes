@@ -10,24 +10,34 @@ import {
 } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { useRouteInfo } from "expo-router/build/hooks";
+import { ThemeContext } from "../context/ThemeContext";
 
 const LeftDrawer = ({ children }) => {
   const { leftDrawerOpen, setLeftDrawerOpen } = useContext(DrawerContext);
+  const { autoTheme } = useContext(ThemeContext);
   const route = useRouteInfo();
+
+  const DrawerTheme =
+    autoTheme === "light" ? styles.lightTheme : styles.darkTheme;
+  const TextTheme = autoTheme === "light" ? styles.textLight : styles.textDark;
+  const IconTheme = autoTheme === "light" ? "#000" : "#fff";
+  const active = autoTheme === "light" ? styles.activeLight : styles.activeDark;
+  const activeIcon = autoTheme === "light" ? IconTheme: "#c2e4fc"
 
   return (
     <Drawer
       open={leftDrawerOpen}
+      drawerStyle={DrawerTheme}
       onOpen={() => setLeftDrawerOpen(true)}
       onClose={() => setLeftDrawerOpen(false)}
       renderDrawerContent={() => {
         return (
           <View style={styles.leftDrawerWrapper}>
-            <Text style={styles.drawerHeader}>Google Keep</Text>
+            <Text style={[styles.drawerHeader, TextTheme]}>Google Keep</Text>
             <Pressable
               style={[
                 styles.drawerListBtn,
-                route.pathname === "/" ? styles.active : null,
+                route.pathname === "/" ? active : null,
               ]}
               onPress={() => {
                 router.navigate("/");
@@ -37,15 +47,23 @@ const LeftDrawer = ({ children }) => {
               <MaterialIcons
                 name="lightbulb-outline"
                 size={22}
-                color="#000"
+                color={route.pathname === "/" ? activeIcon : IconTheme}
                 style={{ marginRight: 10 }}
               />
-              <Text style={{ fontWeight: "600" }}>Notes</Text>
+              <Text
+                style={[
+                  styles.textStyle,
+                  TextTheme,
+                  route.pathname === "/" ? active : null,
+                ]}
+              >
+                Notes
+              </Text>
             </Pressable>
             <Pressable
               style={[
                 styles.drawerListBtn,
-                route.pathname === "/reminder" ? styles.active : null,
+                route.pathname === "/reminder" ? active : null,
               ]}
               onPress={() => {
                 setLeftDrawerOpen(false);
@@ -56,14 +74,22 @@ const LeftDrawer = ({ children }) => {
                 name="bell-outline"
                 style={{ marginRight: 10 }}
                 size={22}
-                color="black"
+                color={route.pathname === "/reminder" ? activeIcon : IconTheme}
               />
-              <Text style={{ fontWeight: "600" }}>Reminder</Text>
+              <Text
+                style={[
+                  styles.textStyle,
+                  TextTheme,
+                  route.pathname === "/reminder" ? active : null,
+                ]}
+              >
+                Reminder
+              </Text>
             </Pressable>
             <Pressable
               style={[
                 styles.drawerListBtn,
-                route.pathname === "/newLabel" ? styles.active : null,
+                route.pathname === "/newLabel" ? active : null,
               ]}
               onPress={() => {
                 router.push("/newLabel");
@@ -74,14 +100,16 @@ const LeftDrawer = ({ children }) => {
                 name="plus"
                 size={22}
                 style={{ marginRight: 10 }}
-                color="black"
+                color={IconTheme}
               />
-              <Text style={{ fontWeight: "600" }}>Create new label</Text>
+              <Text style={[styles.textStyle, TextTheme]}>
+                Create new label
+              </Text>
             </Pressable>
             <Pressable
               style={[
                 styles.drawerListBtn,
-                route.pathname === "/archivedNotes" ? styles.active : null,
+                route.pathname === "/archivedNotes" ? active : null,
               ]}
               onPress={() => {
                 router.navigate("/archivedNotes");
@@ -92,14 +120,22 @@ const LeftDrawer = ({ children }) => {
                 style={{ marginRight: 10 }}
                 name="archive-outline"
                 size={22}
-                color="black"
+                color={route.pathname === "/archivedNotes" ? activeIcon : IconTheme}
               />
-              <Text style={{ fontWeight: "600" }}>Archive</Text>
+              <Text
+                style={[
+                  styles.textStyle,
+                  TextTheme,
+                  route.pathname === "/archivedNotes" ? active : null,
+                ]}
+              >
+                Archive
+              </Text>
             </Pressable>
             <Pressable
               style={[
                 styles.drawerListBtn,
-                route.pathname === "/deletedNotes" ? styles.active : null,
+                route.pathname === "/deletedNotes" ? active : null,
               ]}
               onPress={() => {
                 router.navigate("/deletedNotes");
@@ -110,14 +146,22 @@ const LeftDrawer = ({ children }) => {
                 name="delete"
                 size={22}
                 style={{ marginRight: 10 }}
-                color="black"
+                color={route.pathname === "/deletedNotes" ? activeIcon : IconTheme}
               />
-              <Text style={{ fontWeight: "600" }}>Deleted</Text>
+              <Text
+                style={[
+                  styles.textStyle,
+                  TextTheme,
+                  route.pathname === "/deletedNotes" ? active : null,
+                ]}
+              >
+                Deleted
+              </Text>
             </Pressable>
             <Pressable
               style={[
                 styles.drawerListBtn,
-                route.pathname === "/setting" ? styles.active : null,
+                route.pathname === "/setting" ? active : null,
               ]}
               onPress={() => {
                 router.push("/setting");
@@ -128,14 +172,14 @@ const LeftDrawer = ({ children }) => {
                 name="settings-outline"
                 size={22}
                 style={{ marginRight: 10 }}
-                color="black"
+                color={IconTheme}
               />
-              <Text style={{ fontWeight: "600" }}>Setting</Text>
+              <Text style={[styles.textStyle, TextTheme]}>Setting</Text>
             </Pressable>
             <Pressable
               style={[
                 styles.drawerListBtn,
-                route.pathname === "/helpNfeed" ? styles.active : null,
+                route.pathname === "/helpNfeed" ? active : null,
               ]}
               onPress={() => {
                 router.push("/helpNfeedback");
@@ -146,9 +190,9 @@ const LeftDrawer = ({ children }) => {
                 name="help-outline"
                 style={{ marginRight: 10 }}
                 size={22}
-                color="black"
+                color={IconTheme}
               />
-              <Text style={{ fontWeight: "600" }}>Help & feedback</Text>
+              <Text style={[styles.textStyle, TextTheme]}>Help & feedback</Text>
             </Pressable>
           </View>
         );
@@ -162,6 +206,21 @@ const LeftDrawer = ({ children }) => {
 export default LeftDrawer;
 
 const styles = StyleSheet.create({
+  lightTheme: {
+    backgroundColor: "#e9f1f7",
+  },
+  darkTheme: {
+    backgroundColor: "#20212e",
+  },
+  textLight: {
+    color: "#000",
+  },
+  textDark: {
+    color: "#fff",
+  },
+  textStyle: {
+    fontWeight: "600",
+  },
   leftDrawerWrapper: {
     marginVertical: 40,
     flexDirection: "column",
@@ -180,7 +239,12 @@ const styles = StyleSheet.create({
     marginVertical: 4,
     borderRadius: 40,
   },
-  active: {
+  activeLight: {
     backgroundColor: "#c2e4fc",
+    color: "#000",
+  },
+  activeDark: {
+    backgroundColor: "#1b4469",
+    color: "#c2e4fc",
   },
 });

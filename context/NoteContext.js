@@ -35,14 +35,12 @@ const NoteProvider = ({ children }) => {
       setDescription("");
     }
     console.log(noteId)
-    router.navigate("/");
   };
 
   const editNote = (note) => {
     setCurrentNote(note);
     setTitle(note.title)
     setDescription(note.description)
-    router.push("/addNote");
   };  
 
   const deleteNote = (id) => {

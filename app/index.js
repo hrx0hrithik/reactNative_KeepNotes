@@ -6,12 +6,14 @@ import {
   StyleSheet,
   Text,
   ToastAndroid,
+  useColorScheme,
   View,
 } from "react-native";
 import { SimpleGrid } from "react-native-super-grid";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { MaterialIcons } from "@expo/vector-icons";
 
+// import AddNote from "./AddNote";
 import SearchBar from "../components/SearchBar";
 import BottomBar from "../components/BottomBar";
 import NoteBox from "../components/NoteBox";
@@ -20,15 +22,25 @@ import LeftDrawer from "../components/LeftDrawer";
 import * as NavigationBar from "expo-navigation-bar";
 
 import { NoteContext } from "../context/NoteContext";
-
-NavigationBar.setBackgroundColorAsync("#e9f1f7");
-NavigationBar.setButtonStyleAsync("dark");
+import { ThemeContext } from "../context/ThemeContext";
+import { AddnoteModalContext } from "../context/AddnoteModalContext";
 
 export default function App() {
-  
-  const [isFullWidth, setIsFullWidth] = useState(false);
+  const colorScheme = useColorScheme();
 
   const { allNotes, noteId, deleteNote, editNote } = useContext(NoteContext);
+  const { setAutoTheme } = useContext(ThemeContext);
+  const { setOpenModal } = useContext(AddnoteModalContext);
+
+  const themeContainerStyle =
+    colorScheme === "light" ? styles.lightContainer : styles.darkContainer;
+
+  const [isFullWidth, setIsFullWidth] = useState(false);
+
+  NavigationBar.setBackgroundColorAsync(
+    colorScheme === "light" ? "#e9f1f7" : "#20212e"
+  );
+  NavigationBar.setButtonStyleAsync(colorScheme === "light" ? "dark" : "light")
 
   useEffect(() => {
     const recentNote = allNotes.find((n) => n.noteId === noteId);
@@ -46,10 +58,19 @@ export default function App() {
     }
   }, [allNotes]);
 
+  useEffect(() => {
+    setAutoTheme(colorScheme);
+  }, [colorScheme]);
+
+  const handleNoteOnPress = (item) => {
+    editNote(item);
+    setOpenModal(true)
+  }
+
   return (
     <>
       <LeftDrawer>
-        <SafeAreaView style={styles.container}>
+        <SafeAreaView style={[styles.container, themeContainerStyle]}>
           <SearchBar
             isFullWidth={isFullWidth}
             setIsFullWidth={setIsFullWidth}
@@ -64,7 +85,7 @@ export default function App() {
                 data={allNotes}
                 keyExtractor={(item) => item.noteId}
                 renderItem={({ item, index }) => (
-                  <Pressable key={index} onPress={() => editNote(item)}>
+                  <Pressable key={index} onPress={() => handleNoteOnPress(item)}>
                     <NoteBox
                       key={item.noteId}
                       title={item.title}
@@ -81,16 +102,27 @@ export default function App() {
               <MaterialIcons
                 name="lightbulb-outline"
                 size={120}
-                color="#ffc954"
+                color={colorScheme === "light" ? "#ffc954" : "#fff" }
                 style={{ marginBottom: 16 }}
               />
-              <Text>Notes you add appear here</Text>
+              <Text
+                style={
+                  colorScheme === "light"
+                    ? { color: "#000" }
+                    : { color: "#fff" }
+                }
+              >
+                Notes you add appear here
+              </Text>
             </View>
           )}
           <BottomBar />
+          {/* <AddNote /> */}
         </SafeAreaView>
       </LeftDrawer>
-      <StatusBar backgroundColor={"#e9f1f7"} barStyle={"dark-content"} />
+      <StatusBar
+        backgroundColor={colorScheme === "light" ? "#e9f1f7" : "#12121a"}
+      />
     </>
   );
 }
@@ -99,8 +131,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: "100%",
-    backgroundColor: "#fff",
     paddingTop: 0,
+  },
+  lightContainer: {
+    backgroundColor: "#fff",
+  },
+  darkContainer: {
+    backgroundColor: "#12121a",
   },
   scrollViewNotes: {
     marginBottom: 50,
@@ -113,6 +150,6 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-    height: "80%",
+    height: "75%",
   },
 });
