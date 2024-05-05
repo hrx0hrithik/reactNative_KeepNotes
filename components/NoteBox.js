@@ -1,12 +1,13 @@
 import React, { useContext } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { ThemeContext } from "../context/ThemeContext";
+import { darkThemeBackground, lightThemeBackground } from "../utility/themes";
 
 const NoteBox = ({ title, description }) => {
   const { autoTheme } = useContext(ThemeContext);
 
   const noteWrapperTheme =
-    autoTheme === "light" ? styles.lightContainer : styles.darkContainer;
+    autoTheme === "light" ? lightThemeBackground : darkThemeBackground;
   const noteTitleTheme = { color: autoTheme === "light" ? "#000" : "#fff" };
   const noteDescTheme = { color: autoTheme === "light" ? "#777" : "#bbb" };
 
@@ -37,12 +38,7 @@ const styles = StyleSheet.create({
     marginVertical: 4,
     fontSize: 14,
   },
-  lightContainer: {
-    backgroundColor: "#fff",
-  },
-  darkContainer: {
-    backgroundColor: "#12121a",
-  },
+
 });
 
 export default NoteBox;

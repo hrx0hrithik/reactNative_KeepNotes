@@ -13,6 +13,13 @@ export const darkBarBackground = {
     backgroundColor: "#20212e",
 };
 
+export const lightThemeIcon = {
+  color: "#000",
+};
+
+export const darkThemeIcon = {
+  color: "#fff",
+};
 export const lightThemeText = {
   color: "#000",
 };

@@ -1,15 +1,11 @@
 import "react-native-gesture-handler";
 import { useContext, useEffect } from "react";
 import {
-  Button,
   View,
-  Text,
-  StyleSheet,
   useColorScheme,
-  Keyboard,
   StatusBar,
 } from "react-native";
-import { NavigationContainer, useNavigation } from "@react-navigation/native";
+import { NavigationContainer, DarkTheme  } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import ThemeProvider, { ThemeContext } from "./context/ThemeContext";
@@ -17,7 +13,7 @@ import ThemeProvider, { ThemeContext } from "./context/ThemeContext";
 import NotesHome from "./screens/NotesHome";
 import NoteProvider from "./context/NoteContext";
 import AddNote from "./screens/AddNote";
-import NewRoute, { ConnectedActionSheetButton } from "./screens/NewRoute";
+import NewRoute from "./screens/NewRoute";
 import Setting from "./screens/Setting";
 import Reminder from "./screens/Reminder";
 import ArchivedNotes from "./screens/ArchivedNotes";
@@ -34,13 +30,9 @@ import {
 
 import {
   activeDarkThemeBackground,
-  activeDarkThemeText,
   activeLightThemeBackground,
-  activeLightThemeText,
-  darkBarBackground,
   darkThemeBackground,
   darkThemeText,
-  lightBarBackground,
   lightThemeBackground,
   lightThemeText,
 } from "./utility/themes";
@@ -50,64 +42,6 @@ import { ActionSheetProvider } from "@expo/react-native-action-sheet";
 function EmptyScreen() {
   return <View />;
 }
-
-function Feed({ navigation }) {
-  const { autoTheme } = useContext(ThemeContext);
-  return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Text>Feed Screen {`autoTheme -> ${autoTheme}`}</Text>
-      <Button title="Go to Root" onPress={() => navigation.navigate("Root")} />
-      <Button
-        title="Go to Root, Profile"
-        onPress={() => navigation.navigate("Root", { screen: "Profile" })}
-      />
-    </View>
-  );
-}
-
-function Home({ navigation }) {
-  const { autoTheme } = useContext(ThemeContext);
-  return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Text>Home Screen {`autoTheme -> ${autoTheme}`}</Text>
-      <Button title="Go to Feed" onPress={() => navigation.navigate("Feed")} />
-      <Button title="Open Drawer" onPress={() => navigation.openDrawer()} />
-    </View>
-  );
-}
-
-// function CustomDrawerContent(props) {
-//   const handleSettingOnPress = () => {
-//     props.navigation.closeDrawer()
-//     props.navigation.push("Setting")
-//   }
-
-//   const handleNewLabelOnPress = () => {
-//     props.navigation.closeDrawer()
-//   }
-
-//   return (
-//     <DrawerContentScrollView {...props}>
-//       <Text style={styles.drawerHeading}>Keep Notes</Text>
-//       <DrawerItemList {...props} />
-//       <DrawerItem
-//         labelStyle={{ color: "#fff"}}
-//         label="Create new lable"
-//         onPress={() => handleNewLabelOnPress()}
-//       />
-//       <DrawerItem
-//         labelStyle={{ color: "#fff"}}
-//         label="Setting"
-//         onPress={() => handleSettingOnPress()}
-//       />
-//       <DrawerItem
-//         labelStyle={{ color: "#fff"}}
-//         label="Help & feedback"
-//         // onPress={() => handleOnPress()}
-//       />
-//     </DrawerContentScrollView>
-//   );
-// }
 
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
@@ -216,6 +150,7 @@ function App() {
     appTheme === "light" ? lightThemeText.color : darkThemeText.color;
   const backgroundTheme =
     appTheme === "light" ? lightThemeBackground : darkThemeBackground;
+
   return (
     <ThemeProvider>
       <ActionSheetProvider>
@@ -227,6 +162,7 @@ function App() {
                 headerTintColor: textTheme,
                 headerStyle: backgroundTheme,
               }}
+              sceneContainerStyle={{backgroundColor: 'black'}}
             >
               <Stack.Screen
                 name="Root"
@@ -252,12 +188,3 @@ function App() {
 }
 
 export default App;
-
-const styles = StyleSheet.create({
-  lightTheme: {
-    backgroundColor: "#e9f1f7",
-  },
-  darkTheme: {
-    backgroundColor: "#20212e",
-  },
-});

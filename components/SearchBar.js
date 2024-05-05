@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import { Keyboard, Pressable, StyleSheet, TextInput, View } from "react-native";
 import { Ionicons, AntDesign, Feather, FontAwesome } from "@expo/vector-icons";
 import { ThemeContext } from "../context/ThemeContext";
+import { darkBarBackground, darkThemeIcon, lightBarBackground, lightThemeIcon } from "../utility/themes";
 
 const SearchBar = ({ isFullWidth, setIsFullWidth, navigation }) => {
   const [searchText, setSearchText] = useState("");
@@ -18,7 +19,10 @@ const SearchBar = ({ isFullWidth, setIsFullWidth, navigation }) => {
   };
 
   const searchWrapperTheme =
-    autoTheme === "light" ? styles.lightTheme : styles.darkTheme;
+    autoTheme === "light" ? lightBarBackground : darkBarBackground;
+  const searchIconColor =
+    autoTheme === "light" ? lightThemeIcon.color : darkThemeIcon.color ;
+  
 
   return (
     <View style={[styles.searchBarWrapper, searchWrapperTheme]}>
@@ -27,12 +31,12 @@ const SearchBar = ({ isFullWidth, setIsFullWidth, navigation }) => {
           <Ionicons
             name="menu-sharp"
             size={24}
-            color={autoTheme === "light" ? "#000" : "#fff"}
+            color={searchIconColor}
           />
         </Pressable>
         <TextInput
           placeholder="Search your notes"
-          placeholderTextColor={autoTheme === "light" ? "#000" : "#fff"}
+          placeholderTextColor={searchIconColor}
           onChangeText={() => setSearchText}
           value={searchText}
           style={styles.searchBar}
@@ -45,7 +49,7 @@ const SearchBar = ({ isFullWidth, setIsFullWidth, navigation }) => {
               style={styles.rightSearchIcon}
               name="appstore-o"
               size={24}
-              color={autoTheme === "light" ? "#000" : "#fff"}
+              color={searchIconColor}
             />
           </Pressable>
         ) : (
@@ -54,7 +58,7 @@ const SearchBar = ({ isFullWidth, setIsFullWidth, navigation }) => {
               style={styles.rightSearchIcon}
               name="server"
               size={24}
-              color={autoTheme === "light" ? "#000" : "#fff"}
+              color={searchIconColor}
             />
           </Pressable>
         )}
@@ -62,7 +66,7 @@ const SearchBar = ({ isFullWidth, setIsFullWidth, navigation }) => {
           style={styles.rightSearchIcon}
           name="user-circle-o"
           size={24}
-          color={autoTheme === "light" ? "#000" : "#fff"}
+          color={searchIconColor}
         />
       </View>
     </View>
@@ -78,12 +82,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-  },
-  lightTheme: {
-    backgroundColor: "#e9f1f7",
-  },
-  darkTheme: {
-    backgroundColor: "#20212e",
   },
   searchBar: {
     height: 24,

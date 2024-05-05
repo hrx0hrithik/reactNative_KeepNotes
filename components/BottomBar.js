@@ -4,13 +4,15 @@ import { AntDesign, Ionicons, Feather } from "@expo/vector-icons";
 import AddNoteBtn from "./AddNoteBtn";
 import { ThemeContext } from "../context/ThemeContext";
 import { useNavigation } from "@react-navigation/native";
+import { darkBarBackground, darkThemeIcon, lightBarBackground, lightThemeIcon } from "../utility/themes";
 
 const BottomBar = () => {
   const { autoTheme } = useContext(ThemeContext);
   const navigation = useNavigation();
 
   const bottomBarTheme =
-    autoTheme === "light" ? styles.lightTheme : styles.darkTheme;
+    autoTheme === "light" ? lightBarBackground : darkBarBackground;
+  const barIconsColor = autoTheme === "light" ? lightThemeIcon.color : darkThemeIcon.color
 
   return (
     <View style={[styles.bottomBar, bottomBarTheme]}>
@@ -23,7 +25,7 @@ const BottomBar = () => {
             style={styles.bottomBarIcons}
             name="checksquareo"
             size={24}
-            color={autoTheme === "light" ? "#000" : "#fff"}
+            color={barIconsColor}
           />
         </Pressable>
         <Pressable style={styles.bottomIconBtn}>
@@ -31,7 +33,7 @@ const BottomBar = () => {
             style={styles.bottomBarIcons}
             name="brush-sharp"
             size={24}
-            color={autoTheme === "light" ? "#000" : "#fff"}
+            color={barIconsColor}
           />
         </Pressable>
         <Pressable style={styles.bottomIconBtn}>
@@ -39,7 +41,7 @@ const BottomBar = () => {
             style={styles.bottomBarIcons}
             name="mic"
             size={24}
-            color={autoTheme === "light" ? "#000" : "#fff"}
+            color={barIconsColor}
           />
         </Pressable>
         <Pressable style={styles.bottomIconBtn}>
@@ -47,7 +49,7 @@ const BottomBar = () => {
             style={styles.bottomBarIcons}
             name="picture"
             size={24}
-            color={autoTheme === "light" ? "#000" : "#fff"}
+            color={barIconsColor}
           />
         </Pressable>
       </View>
@@ -60,16 +62,10 @@ const styles = StyleSheet.create({
   bottomBar: {
     position: "absolute",
     bottom: 0,
-    height: 52,
+    height: 54,
     width: "100%",
     paddingVertical: 6,
     paddingHorizontal: 4,
-  },
-  lightTheme: {
-    backgroundColor: "#e9f1f7",
-  },
-  darkTheme: {
-    backgroundColor: "#20212e",
   },
   bottomIconsWrapper: {
     flexDirection: "row",

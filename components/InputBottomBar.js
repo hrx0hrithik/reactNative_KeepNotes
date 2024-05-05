@@ -15,16 +15,16 @@ import { NoteContext } from "../context/NoteContext";
 import { ThemeContext } from "../context/ThemeContext";
 import { useNavigation } from "@react-navigation/native";
 import {
+  darkBarBackground,
   darkThemeBackground,
+  darkThemeIcon,
   darkThemeText,
+  lightBarBackground,
   lightThemeBackground,
+  lightThemeIcon,
   lightThemeText,
 } from "../utility/themes";
-import {
-  formattedDate,
-  formattedDateNTime,
-  formattedTime,
-} from "../utility/dates";
+import { formattedDate, formattedTime } from "../utility/dates";
 
 const InputBottomBar = () => {
   const { deleteNote, currentNote } = useContext(NoteContext);
@@ -51,6 +51,10 @@ const InputBottomBar = () => {
     autoTheme === "light" ? lightThemeBackground : darkThemeBackground;
   const textThemeColor =
     autoTheme === "light" ? lightThemeText.color : darkThemeText.color;
+  const bottomBarWrapperTheme =
+    autoTheme === "light" ? lightBarBackground : darkBarBackground;
+  const iconThemeColor =
+    autoTheme === "light" ? lightThemeIcon.color : darkThemeIcon.color;
 
   const InputBottomThreeDotMenu = () => {
     Keyboard.dismiss();
@@ -184,13 +188,9 @@ const InputBottomBar = () => {
   };
 
   const InputBottomColorPaletMenu = () => {
-    Keyboard.dismiss()
-    showActionSheetWithOptions(props)
-  }
-
-  const bottomBarWrapperTheme =
-    autoTheme === "light" ? styles.lightTheme : styles.darkTheme;
-  const textTheme = autoTheme === "light" ? lightThemeText : darkThemeText;
+    Keyboard.dismiss();
+    showActionSheetWithOptions(props);
+  };
 
   return (
     <View style={[styles.bottomBarWrapper, bottomBarWrapperTheme]}>
@@ -200,7 +200,7 @@ const InputBottomBar = () => {
             style={styles.leftBottomBtn}
             name="diff-added"
             size={22}
-            color={autoTheme === "light" ? "#000" : "#fff"}
+            color={iconThemeColor}
           />
         </Pressable>
         <Pressable onPress={InputBottomColorPaletMenu}>
@@ -208,14 +208,14 @@ const InputBottomBar = () => {
             style={styles.leftBottomBtn}
             name="palette-outline"
             size={22}
-            color={autoTheme === "light" ? "#000" : "#fff"}
+            color={iconThemeColor}
           />
         </Pressable>
         <Foundation
           style={styles.leftBottomBtn}
           name="text-color"
           size={22}
-          color={autoTheme === "light" ? "#000" : "#fff"}
+          color={iconThemeColor}
         />
         <Text style={styles.editedText}>
           Edited {editDate === currentDate ? editTime : editDate}
@@ -225,11 +225,7 @@ const InputBottomBar = () => {
         onPress={InputBottomThreeDotMenu}
         style={{ padding: 4, marginRight: 6 }}
       >
-        <Entypo
-          name="dots-three-vertical"
-          size={18}
-          color={autoTheme === "light" ? "#000" : "#fff"}
-        />
+        <Entypo name="dots-three-vertical" size={18} color={iconThemeColor} />
       </Pressable>
     </View>
   );
@@ -247,12 +243,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 4,
     paddingBottom: 4,
   },
-  lightTheme: {
-    backgroundColor: "#e9f1f7",
-  },
-  darkTheme: {
-    backgroundColor: "#12121a",
-  },
   leftBottomBtn: {
     marginHorizontal: 6,
     padding: 4,
@@ -262,8 +252,8 @@ const styles = StyleSheet.create({
     marginLeft: 8,
     color: "#999",
     textAlign: "center",
-    textAlignVertical: "center"
-  }
+    textAlignVertical: "center",
+  },
 });
 
 export default InputBottomBar;
