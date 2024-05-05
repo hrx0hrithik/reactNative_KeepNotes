@@ -12,28 +12,45 @@ import {
 } from "@expo/vector-icons";
 import { useActionSheet } from "@expo/react-native-action-sheet";
 import { NoteContext } from "../context/NoteContext";
-import { router } from "expo-router";
 import { ThemeContext } from "../context/ThemeContext";
+import { useNavigation } from "@react-navigation/native";
+import {
+  darkThemeBackground,
+  darkThemeText,
+  lightThemeBackground,
+  lightThemeText,
+} from "../utility/themes";
+import {
+  formattedDate,
+  formattedDateNTime,
+  formattedTime,
+} from "../utility/dates";
 
 const InputBottomBar = () => {
   const { deleteNote, currentNote } = useContext(NoteContext);
   const { autoTheme } = useContext(ThemeContext);
 
   const { showActionSheetWithOptions } = useActionSheet();
+  const navigation = useNavigation();
 
-  let date = null;
-  const currentDate = new Date().toLocaleDateString()
+  let editDate = null;
+  let editTime = null;
+  const currentDate = formattedDate;
 
   if (!currentNote) {
-    date = new Date();
+    editDate = formattedDate;
+    editTime = formattedTime;
   } else {
-    date = currentNote.editedAt;
+    const date = currentNote.editedAt;
+    let newDate = date.split(",");
+    editDate = newDate[0];
+    editTime = newDate[1];
   }
-  const editDate = date.toLocaleDateString();
-  const editTime = date.toLocaleTimeString([], {
-    hour: "2-digit",
-    minute: "2-digit",
-  });
+
+  const backgroundTheme =
+    autoTheme === "light" ? lightThemeBackground : darkThemeBackground;
+  const textThemeColor =
+    autoTheme === "light" ? lightThemeText.color : darkThemeText.color;
 
   const InputBottomThreeDotMenu = () => {
     Keyboard.dismiss();
@@ -50,28 +67,46 @@ const InputBottomBar = () => {
     showActionSheetWithOptions(
       {
         options,
-        containerStyle: {
-          backgroundColor: "#e9f1f7",
-          zIndex: 30,
-        },
+        containerStyle: backgroundTheme,
+        tintColor: textThemeColor,
         cancelButtonIndex,
         icons: [
-          <AntDesign name="delete" size={20} color="black" />,
-          <MaterialIcons name="content-copy" size={20} color="black" />,
-          <Ionicons name="share-social-outline" size={20} color="black" />,
-          <MaterialIcons name="person-add-alt" size={20} color="black" />,
-          <MaterialIcons name="label-outline" size={20} color="black" />,
-          <MaterialIcons name="help-outline" size={20} color="black" />,
+          <AntDesign name="delete" size={20} color={textThemeColor} />,
+          <MaterialIcons
+            name="content-copy"
+            size={20}
+            color={textThemeColor}
+          />,
+          <Ionicons
+            name="share-social-outline"
+            size={20}
+            color={textThemeColor}
+          />,
+          <MaterialIcons
+            name="person-add-alt"
+            size={20}
+            color={textThemeColor}
+          />,
+          <MaterialIcons
+            name="label-outline"
+            size={20}
+            color={textThemeColor}
+          />,
+          <MaterialIcons
+            name="help-outline"
+            size={20}
+            color={textThemeColor}
+          />,
         ],
       },
       (selectedIndex) => {
         switch (selectedIndex) {
           case 0:
             if (!currentNote) {
-              router.navigate("/");
+              navigation.navigate("/");
             } else {
               deleteNote(currentNote.noteId);
-              router.navigate("/");
+              navigation.navigate("/");
             }
             break;
           case 1:
@@ -108,24 +143,23 @@ const InputBottomBar = () => {
     showActionSheetWithOptions(
       {
         options,
-        containerStyle: {
-          backgroundColor: "#e9f1f7",
-        },
+        containerStyle: backgroundTheme,
+        tintColor: textThemeColor,
         cancelButtonIndex,
         icons: [
           <MaterialCommunityIcons
             name="camera-outline"
-            size={20}
-            color="black"
+            size={22}
+            color={textThemeColor}
           />,
           <MaterialCommunityIcons
             name="image-outline"
-            size={20}
-            color="black"
+            size={22}
+            color={textThemeColor}
           />,
-          <Ionicons name="brush-sharp" size={20} color="black" />,
-          <Feather name="mic" size={20} color="black" />,
-          <AntDesign name="checksquareo" size={20} color="black" />,
+          <Ionicons name="brush-sharp" size={22} color={textThemeColor} />,
+          <Feather name="mic" size={22} color={textThemeColor} />,
+          <AntDesign name="checksquareo" size={22} color={textThemeColor} />,
         ],
       },
       (selectedIndex) => {
@@ -149,8 +183,14 @@ const InputBottomBar = () => {
     );
   };
 
+  const InputBottomColorPaletMenu = () => {
+    Keyboard.dismiss()
+    showActionSheetWithOptions(props)
+  }
+
   const bottomBarWrapperTheme =
-  autoTheme === "light" ? styles.lightTheme : styles.darkTheme;
+    autoTheme === "light" ? styles.lightTheme : styles.darkTheme;
+  const textTheme = autoTheme === "light" ? lightThemeText : darkThemeText;
 
   return (
     <View style={[styles.bottomBarWrapper, bottomBarWrapperTheme]}>
@@ -163,13 +203,13 @@ const InputBottomBar = () => {
             color={autoTheme === "light" ? "#000" : "#fff"}
           />
         </Pressable>
-        <Pressable>
-        <MaterialCommunityIcons
-          style={styles.leftBottomBtn}
-          name="palette-outline"
-          size={22}
-          color={autoTheme === "light" ? "#000" : "#fff"}
-        />
+        <Pressable onPress={InputBottomColorPaletMenu}>
+          <MaterialCommunityIcons
+            style={styles.leftBottomBtn}
+            name="palette-outline"
+            size={22}
+            color={autoTheme === "light" ? "#000" : "#fff"}
+          />
         </Pressable>
         <Foundation
           style={styles.leftBottomBtn}
@@ -177,13 +217,19 @@ const InputBottomBar = () => {
           size={22}
           color={autoTheme === "light" ? "#000" : "#fff"}
         />
-        <Text style={styles.leftBottomBtn}>Edited { (editDate === currentDate) ? editTime : editDate}</Text>
+        <Text style={styles.editedText}>
+          Edited {editDate === currentDate ? editTime : editDate}
+        </Text>
       </View>
       <Pressable
         onPress={InputBottomThreeDotMenu}
         style={{ padding: 4, marginRight: 6 }}
       >
-        <Entypo name="dots-three-vertical" size={18} color={autoTheme === "light" ? "#000" : "#fff"} />
+        <Entypo
+          name="dots-three-vertical"
+          size={18}
+          color={autoTheme === "light" ? "#000" : "#fff"}
+        />
       </Pressable>
     </View>
   );
@@ -211,6 +257,13 @@ const styles = StyleSheet.create({
     marginHorizontal: 6,
     padding: 4,
   },
+  editedText: {
+    fontSize: 12,
+    marginLeft: 8,
+    color: "#999",
+    textAlign: "center",
+    textAlignVertical: "center"
+  }
 });
 
 export default InputBottomBar;

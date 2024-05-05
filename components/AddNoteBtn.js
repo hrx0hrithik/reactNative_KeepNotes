@@ -1,20 +1,20 @@
-import { router } from "expo-router";
 import React, { useContext } from "react";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import { NoteContext } from "../context/NoteContext";
 import uuid from "react-native-uuid";
 import { ThemeContext } from "../context/ThemeContext";
-import { AddnoteModalContext } from "../context/AddnoteModalContext";
+import { useNavigation } from '@react-navigation/native';
+
 
 const AddNoteBtn = () => {
+
+  const navigation = useNavigation()
   const { setTitle, setDescription, setCurrentNote, setNoteId } =
     useContext(NoteContext);
   const { autoTheme } = useContext(ThemeContext);
-  const { openModal, setOpenModal } = useContext(AddnoteModalContext);
 
   const AddingNote = () => {
-    router.push("/addNote");
-    setOpenModal(true)
+    navigation.push("AddNote");
     setTitle("");
     setDescription("");
     setNoteId(uuid.v4());

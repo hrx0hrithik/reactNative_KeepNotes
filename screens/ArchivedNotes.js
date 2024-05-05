@@ -2,11 +2,10 @@ import React, { useContext, useState } from "react";
 import { SafeAreaView, StyleSheet, Text, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import SecondaryTopBar from "../components/SecondaryTopBar";
-import LeftDrawer from "../components/LeftDrawer";
 import BottomBar from "../components/BottomBar";
 import { ThemeContext } from "../context/ThemeContext";
 
-const archivedNotes = () => {
+const ArchivedNotes = () => {
   const { autoTheme } = useContext(ThemeContext);
 
   const [isFullWidth, setIsFullWidth] = useState(false);
@@ -15,7 +14,6 @@ const archivedNotes = () => {
     autoTheme === "light" ? styles.lightContainer : styles.darkContainer;
 
   return (
-    <LeftDrawer>
       <SafeAreaView style={[styles.container, themeContainerStyle]}>
         <SecondaryTopBar
           barTitle="Archive"
@@ -39,11 +37,10 @@ const archivedNotes = () => {
         </View>
         <BottomBar />
       </SafeAreaView>
-    </LeftDrawer>
   );
 };
 
-export default archivedNotes;
+export default ArchivedNotes;
 
 const styles = StyleSheet.create({
   container: {

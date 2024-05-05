@@ -1,5 +1,5 @@
 import React, { createContext, useState } from "react";
-import { router } from "expo-router";
+import { formattedDateNTime } from "../utility/dates";
 
 export const NoteContext = createContext();
 
@@ -28,7 +28,7 @@ const NoteProvider = ({ children }) => {
         title: title,
         description: description,
         noteId: noteId,
-        editedAt: new Date().toLocaleString(),
+        editedAt: formattedDateNTime,
       };
       setAllNotes([newNote, ...allNotes]);
       setTitle("");

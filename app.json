@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "ReactNative_KeepNotesClone",
-    "slug": "ReactNative_KeepNotesClone",
-    "scheme": "ReactNative_KeepNotesClone",
+    "name": "RN_KeepNotes",
+    "slug": "RN_KeepNotes",
+    "scheme": "RN_KeepNotes",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -26,9 +26,6 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    },
-    "plugins": [
-      "expo-router"
-    ]
+    }
   }
 }

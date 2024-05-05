@@ -1,22 +1,23 @@
 import React, { useContext } from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, View } from "react-native";
 import { AntDesign, Ionicons, Feather } from "@expo/vector-icons";
-import { router } from "expo-router";
 import AddNoteBtn from "./AddNoteBtn";
 import { ThemeContext } from "../context/ThemeContext";
+import { useNavigation } from "@react-navigation/native";
 
-const BottomBar = ({ setShowModal }) => {
+const BottomBar = () => {
   const { autoTheme } = useContext(ThemeContext);
+  const navigation = useNavigation();
 
   const bottomBarTheme =
-  autoTheme === "light" ? styles.lightTheme : styles.darkTheme;
+    autoTheme === "light" ? styles.lightTheme : styles.darkTheme;
 
   return (
     <View style={[styles.bottomBar, bottomBarTheme]}>
       <View style={styles.bottomIconsWrapper}>
         <Pressable
           style={styles.bottomIconBtn}
-          onPress={() => router.push("/newRoute")}
+          onPress={() => navigation.push("NewRoute")}
         >
           <AntDesign
             style={styles.bottomBarIcons}
@@ -50,7 +51,7 @@ const BottomBar = ({ setShowModal }) => {
           />
         </Pressable>
       </View>
-      <AddNoteBtn setShowModal={setShowModal} />
+      <AddNoteBtn />
     </View>
   );
 };

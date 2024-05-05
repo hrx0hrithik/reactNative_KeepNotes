@@ -3,10 +3,10 @@ import { SafeAreaView, StyleSheet, Text, View } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import SecondaryTopBar from "../components/SecondaryTopBar";
 import BottomBar from "../components/BottomBar";
-import LeftDrawer from "../components/LeftDrawer";
+// import LeftDrawer from "../components/LeftDrawer";
 import { ThemeContext } from "../context/ThemeContext";
 
-const reminder = () => {
+const Reminder = () => {
   const { autoTheme } = useContext(ThemeContext);
 
   const [isFullWidth, setIsFullWidth] = useState(false);
@@ -15,7 +15,7 @@ const reminder = () => {
     autoTheme === "light" ? styles.lightContainer : styles.darkContainer;
 
   return (
-    <LeftDrawer>
+    // <LeftDrawer>
       <SafeAreaView style={[styles.container, themeContainerStyle]}>
         <SecondaryTopBar
           barTitle="Reminders"
@@ -39,11 +39,11 @@ const reminder = () => {
         </View>
         <BottomBar />
       </SafeAreaView>
-    </LeftDrawer>
+    // </LeftDrawer>
   );
 };
 
-export default reminder;
+export default Reminder;
 
 const styles = StyleSheet.create({
   container: {

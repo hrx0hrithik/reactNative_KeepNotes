@@ -1,21 +1,19 @@
 import React, { useContext, useState } from "react";
 import { Keyboard, Pressable, StyleSheet, TextInput, View } from "react-native";
 import { Ionicons, AntDesign, Feather, FontAwesome } from "@expo/vector-icons";
-import { DrawerContext } from "../context/DrawerContext";
 import { ThemeContext } from "../context/ThemeContext";
 
-const SearchBar = ({ isFullWidth, setIsFullWidth }) => {
+const SearchBar = ({ isFullWidth, setIsFullWidth, navigation }) => {
   const [searchText, setSearchText] = useState("");
 
-  const { setLeftDrawerOpen } = useContext(DrawerContext);
   const { autoTheme } = useContext(ThemeContext);
 
   const toggleNotesView = () => {
     setIsFullWidth((prev) => !prev);
   };
 
-  const toggleLeftDrawer = () => {
-    setLeftDrawerOpen((prevOpen) => !prevOpen);
+  const handleOnPressDrawer = () => {
+    navigation.openDrawer()
     Keyboard.dismiss();
   };
 
@@ -25,7 +23,7 @@ const SearchBar = ({ isFullWidth, setIsFullWidth }) => {
   return (
     <View style={[styles.searchBarWrapper, searchWrapperTheme]}>
       <View style={styles.leftSearchIconWrapper}>
-        <Pressable style={{ padding: 2 }} onPress={() => toggleLeftDrawer()}>
+        <Pressable style={{ padding: 2 }} onPress={() => handleOnPressDrawer()}>
           <Ionicons
             name="menu-sharp"
             size={24}

@@ -1,14 +1,14 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 
-const newLabel = () => {
+const NewLabel = () => {
   return (
     <View>
-      <Text>newLabel</Text>
+      <Text>Edit Label</Text>
     </View>
   )
 }
 
-export default newLabel
+export default NewLabel
 
 const styles = StyleSheet.create({})

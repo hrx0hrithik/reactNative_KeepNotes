@@ -7,8 +7,9 @@ import {
   MaterialIcons,
   Entypo,
 } from "@expo/vector-icons";
-import { DrawerContext } from "../context/DrawerContext";
+// import { DrawerContext } from "../context/DrawerContext";
 import { ThemeContext } from "../context/ThemeContext";
+import { useNavigation } from "@react-navigation/native";
 
 const SecondaryTopBar = ({
   barTitle,
@@ -16,8 +17,10 @@ const SecondaryTopBar = ({
   setIsFullWidth,
   threeDotMenu,
 }) => {
-  const { setLeftDrawerOpen } = useContext(DrawerContext);
+  // const { setLeftDrawerOpen } = useContext(DrawerContext);
   const { autoTheme } = useContext(ThemeContext);
+
+  const navigation = useNavigation()
 
   const searchBarWrapperTheme =
   autoTheme === "light" ? styles.lightTheme : styles.darkTheme;
@@ -27,14 +30,14 @@ const SecondaryTopBar = ({
   };
 
   const toggleLeftDrawer = () => {
-    setLeftDrawerOpen((prevOpen) => !prevOpen);
+    navigation.openDrawer()
     Keyboard.dismiss();
   };
 
   return (
     <View style={[styles.searchBarWrapper, searchBarWrapperTheme]}>
       <View style={styles.leftSearchIconWrapper}>
-        <Pressable style={{ padding: 2 }} onPress={() => toggleLeftDrawer()}>
+        <Pressable style={{ padding: 2 }} onPress={() => navigation.openDrawer() }>
           <Ionicons
             style={styles.leftSearchIcon}
             name="menu-sharp"
@@ -96,7 +99,7 @@ export default SecondaryTopBar;
 
 const styles = StyleSheet.create({
   searchBarWrapper: {
-    paddingTop: 50,
+    paddingTop: 10,
     paddingBottom: 14,
     paddingHorizontal: 2,
     flexDirection: "row",

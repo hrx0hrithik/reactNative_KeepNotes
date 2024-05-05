@@ -5,21 +5,20 @@ import {
   MaterialCommunityIcons,
   Ionicons,
 } from "@expo/vector-icons";
-import { router } from "expo-router";
+// import { router } from "expo-router";
 import { NoteContext } from "../context/NoteContext";
 import { ThemeContext } from "../context/ThemeContext";
-import { AddnoteModalContext } from "../context/AddnoteModalContext";
+import { useNavigation } from "@react-navigation/native";
 
-const TopBar = ({ setShowModal }) => {
+const TopBar = () => {
   const { savingNote } = useContext(NoteContext);
   const { autoTheme } = useContext(ThemeContext);
-  const { openModal, setOpenModal } = useContext(AddnoteModalContext);
 
+  const navigation = useNavigation()
 
   const handlingBack = () => {
-    // setOpenModal(false)
     savingNote();
-    router.back()
+    navigation.goBack()
   };
 
   const topBarWrapperTheme =

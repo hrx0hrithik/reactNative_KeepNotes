@@ -2,17 +2,15 @@ import React, { useContext, useState } from "react";
 import { SafeAreaView, StyleSheet, Text, View } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import SecondaryTopBar from "../components/SecondaryTopBar";
-import LeftDrawer from "../components/LeftDrawer";
 import { ThemeContext } from "../context/ThemeContext";
 
-const deletedNotes = () => {
+const DeletedNotes = () => {
   const { autoTheme } = useContext(ThemeContext);
 
   const themeContainerStyle =
   autoTheme === "light" ? styles.lightContainer : styles.darkContainer;
 
   return (
-    <LeftDrawer>
     <SafeAreaView style={[styles.container, themeContainerStyle]}>
       <SecondaryTopBar
         barTitle="Deleted"
@@ -30,11 +28,10 @@ const deletedNotes = () => {
             }>No notes in Recycle bin</Text>
       </View>
     </SafeAreaView>
-    </LeftDrawer>
   );
 };
 
-export default deletedNotes;
+export default DeletedNotes;
 
 const styles = StyleSheet.create({
   container: {

@@ -3,7 +3,7 @@ import React, { createContext, useState } from "react";
 export const ThemeContext = createContext();
 
 const ThemeProvider = ({ children }) => {
-    const [autoTheme, setAutoTheme] = useState(null)
+    const [autoTheme, setAutoTheme] = useState("text")
 
     return(
         <ThemeContext.Provider

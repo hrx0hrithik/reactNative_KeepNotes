@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { Pressable, StyleSheet, Switch, Text, View } from "react-native";
 import { ThemeContext } from "../context/ThemeContext";
 
-const setting = () => {
+const Setting = () => {
   const { autoTheme } = useContext(ThemeContext);
 
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -29,7 +29,7 @@ const setting = () => {
   );
 };
 
-export default setting;
+export default Setting;
 
 const styles = StyleSheet.create({
     container: {
