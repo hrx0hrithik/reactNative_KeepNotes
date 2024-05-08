@@ -1,6 +1,6 @@
 import React, { createContext, useState } from "react";
 import { formattedDateNTime } from "../utility/dates";
-// import { storage } from "../utility/mmkv";
+import { storage } from "../utility/mmkv";
 
 export const NoteContext = createContext();
 
@@ -29,26 +29,45 @@ const NoteProvider = ({ children }) => {
         noteId: noteId,
         editedAt: formattedDateNTime,
       };
-      // storage.set(noteId,JSON.stringify(newNote))
+      storage.set(noteId, JSON.stringify(newNote));
       setAllNotes([newNote, ...allNotes]);
       setTitle("");
       setDescription("");
     }
-    console.log(noteId)
+    console.log(noteId);
   };
 
   const editNote = (note) => {
     setCurrentNote(note);
-    setTitle(note.title)
-    setDescription(note.description)
-  };  
+    setTitle(note.title);
+    setDescription(note.description);
+  };
 
   const deleteNote = (id) => {
-      // const noteToDelete = allNotes.find((n) => n.noteId === id )
-      // setDeletedNotes([noteToDelete, ...deletedNotes])
-      const updatedNotes = allNotes.filter((note) => note.noteId !== id);
-      setAllNotes(updatedNotes);
+    // const noteToDelete = allNotes.find((n) => n.noteId === id )
+    // setDeletedNotes([noteToDelete, ...deletedNotes])
+    const updatedNotes = allNotes.filter((note) => note.noteId !== id);
+    setAllNotes(updatedNotes);
   };
+
+  useEffect(() => {
+    const fetchNotes = async () => {
+      const keys = storage.getAllKeys();
+      const notes = {};
+
+      await Promise.all(
+        keys.map(async (key) => {
+          const noteString = storage.getString(key);
+          const note = JSON.parse(noteString);
+          notes[key] = note;
+        })
+      );
+
+      setAllNotes(notes);
+    };
+
+    fetchNotes();
+  }, []);
 
   return (
     <NoteContext.Provider
