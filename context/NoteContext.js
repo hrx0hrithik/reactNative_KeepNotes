@@ -1,5 +1,6 @@
 import React, { createContext, useState } from "react";
 import { formattedDateNTime } from "../utility/dates";
+// import { storage } from "../utility/mmkv";
 
 export const NoteContext = createContext();
 
@@ -10,8 +11,6 @@ const NoteProvider = ({ children }) => {
   const [description, setDescription] = useState("");
   const [noteId, setNoteId] = useState(null);
   // const [deletedNotes, setDeletedNotes] = useState([])
-
-  // const tempNoteId = allNotes.length + 1;
 
   const savingNote = () => {
     if (currentNote) {
@@ -30,6 +29,7 @@ const NoteProvider = ({ children }) => {
         noteId: noteId,
         editedAt: formattedDateNTime,
       };
+      // storage.set(noteId,JSON.stringify(newNote))
       setAllNotes([newNote, ...allNotes]);
       setTitle("");
       setDescription("");

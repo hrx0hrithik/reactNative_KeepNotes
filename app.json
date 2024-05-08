@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "RN_KeepNotes",
-    "slug": "RN_KeepNotes",
-    "scheme": "RN_KeepNotes",
+    "name": "reactnative-keepnotesclone",
+    "scheme": "reactnative-keepnotesclone",
+    "slug": "reactnative_keepnotesclone",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",

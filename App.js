@@ -1,11 +1,7 @@
 import "react-native-gesture-handler";
 import { useContext, useEffect } from "react";
-import {
-  View,
-  useColorScheme,
-  StatusBar,
-} from "react-native";
-import { NavigationContainer, DarkTheme  } from "@react-navigation/native";
+import { View, useColorScheme, StatusBar } from "react-native";
+import { NavigationContainer, DarkTheme } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import ThemeProvider, { ThemeContext } from "./context/ThemeContext";
@@ -162,7 +158,7 @@ function App() {
                 headerTintColor: textTheme,
                 headerStyle: backgroundTheme,
               }}
-              sceneContainerStyle={{backgroundColor: 'black'}}
+              sceneContainerStyle={{ backgroundColor: "black" }}
             >
               <Stack.Screen
                 name="Root"
@@ -180,7 +176,10 @@ function App() {
               <Stack.Screen name="NewRoute" component={NewRoute} />
             </Stack.Navigator>
           </NavigationContainer>
-          <StatusBar backgroundColor={backgroundTheme.color} />
+          <StatusBar
+            backgroundColor={appTheme === "light" ? "#fff" : "#12121a"}
+            barStyle={appTheme === "light" ? "dark-content" : "light-content"}
+          />
         </NoteProvider>
       </ActionSheetProvider>
     </ThemeProvider>

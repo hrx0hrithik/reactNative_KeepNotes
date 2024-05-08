@@ -7,9 +7,9 @@ import {
   MaterialIcons,
   Entypo,
 } from "@expo/vector-icons";
-// import { DrawerContext } from "../context/DrawerContext";
 import { ThemeContext } from "../context/ThemeContext";
 import { useNavigation } from "@react-navigation/native";
+import { darkThemeBackground, darkThemeIcon, darkThemeText, lightThemeBackground, lightThemeIcon, lightThemeText } from "../utility/themes";
 
 const SecondaryTopBar = ({
   barTitle,
@@ -17,21 +17,18 @@ const SecondaryTopBar = ({
   setIsFullWidth,
   threeDotMenu,
 }) => {
-  // const { setLeftDrawerOpen } = useContext(DrawerContext);
   const { autoTheme } = useContext(ThemeContext);
 
   const navigation = useNavigation()
 
   const searchBarWrapperTheme =
-  autoTheme === "light" ? styles.lightTheme : styles.darkTheme;
+  autoTheme === "light" ? lightThemeBackground : darkThemeBackground;
+  const barIconColor =
+  autoTheme === "light" ? lightThemeIcon.color : darkThemeIcon.color;
+  const barTextTheme = autoTheme === "light" ? lightThemeText : darkThemeText
 
   const toggleNotesView = () => {
     setIsFullWidth((prev) => !prev);
-  };
-
-  const toggleLeftDrawer = () => {
-    navigation.openDrawer()
-    Keyboard.dismiss();
   };
 
   return (
@@ -42,10 +39,10 @@ const SecondaryTopBar = ({
             style={styles.leftSearchIcon}
             name="menu-sharp"
             size={24}
-            color={autoTheme === "light" ? "#000" : "#fff"}
+            color={barIconColor}
           />
         </Pressable>
-        <Text style={[{ fontSize: 20, paddingTop: 2, marginLeft: 20 }, searchBarWrapperTheme]}>
+        <Text style={[{ fontSize: 20, paddingTop: 2, marginLeft: 20 }, barTextTheme]}>
           {barTitle}
         </Text>
       </View>
@@ -56,7 +53,7 @@ const SecondaryTopBar = ({
               style={styles.rightSearchIcon}
               name="dots-three-vertical"
               size={20}
-              color={autoTheme === "light" ? "#000" : "#fff"}
+              color={barIconColor}
             />
           </Pressable>
         </View>
@@ -67,7 +64,7 @@ const SecondaryTopBar = ({
               style={styles.rightSearchIcon}
               name="search"
               size={24}
-              color={autoTheme === "light" ? "#000" : "#fff"}
+              color={barIconColor}
             />
           </Pressable>
           {isFullWidth ? (
@@ -76,7 +73,7 @@ const SecondaryTopBar = ({
                 style={styles.rightSearchIcon}
                 name="appstore-o"
                 size={24}
-                color={autoTheme === "light" ? "#000" : "#fff"}
+                color={barIconColor}
               />
             </Pressable>
           ) : (
@@ -85,7 +82,7 @@ const SecondaryTopBar = ({
                 style={styles.rightSearchIcon}
                 name="server"
                 size={24}
-                color={autoTheme === "light" ? "#000" : "#fff"}
+                color={barIconColor}
               />
             </Pressable>
           )}
@@ -105,14 +102,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-  },
-  lightTheme: {
-    backgroundColor: "#e9f1f7",
-    color: "#000",
-  },
-  darkTheme: {
-    backgroundColor: "#20212e",
-    color: "#fff",
   },
   leftSearchIconWrapper: {
     flexDirection: "row",
