@@ -49,7 +49,7 @@ export default function NotesHome({ navigation }) {
         deleteNote(noteId);
       }
     }
-    console.log(recentNote)
+    // console.log(recentNote)
   }, [allNotes]);
 
   const handleNoteOnPress = (item) => {

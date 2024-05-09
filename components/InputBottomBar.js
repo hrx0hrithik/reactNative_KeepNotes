@@ -107,10 +107,10 @@ const InputBottomBar = () => {
         switch (selectedIndex) {
           case 0:
             if (!currentNote) {
-              navigation.navigate("/");
+              navigation.goBack()
             } else {
               deleteNote(currentNote.noteId);
-              navigation.navigate("/");
+              navigation.goBack()
             }
             break;
           case 1:
