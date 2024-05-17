@@ -1,5 +1,6 @@
-import React, { useContext, useEffect, useRef } from "react";
+import React, { useCallback, useContext, useEffect, useRef } from "react";
 import {
+  BackHandler,
   Keyboard,
   KeyboardAvoidingView,
   ScrollView,
@@ -17,9 +18,21 @@ import { ThemeContext } from "../context/ThemeContext";
 const AddNote = () => {
   const ref_input2 = useRef();
 
-  const { savingNote, setDescription, setTitle, title, description } =
+  const { savingNote, setDescription, setTitle, title, description, currentNote } =
     useContext(NoteContext);
   const { autoTheme } = useContext(ThemeContext);
+
+  const saving = useCallback(() => {
+    savingNote();
+  }, [savingNote, currentNote]);
+
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener("hardwareBackPress", saving);
+
+    return () => {
+      backHandler.remove();
+    };
+  }, [saving]);
 
   const themeContainerStyle =
     autoTheme === "light" ? styles.lightContainer : styles.darkContainer;

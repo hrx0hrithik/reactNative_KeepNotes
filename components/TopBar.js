@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, View } from "react-native";
 import {
   AntDesign,
   MaterialCommunityIcons,
@@ -14,11 +14,11 @@ const TopBar = () => {
   const { savingNote } = useContext(NoteContext);
   const { autoTheme } = useContext(ThemeContext);
 
-  const navigation = useNavigation()
+  const navigation = useNavigation();
 
   const handlingBack = () => {
     savingNote();
-    navigation.goBack()
+    navigation.goBack();
   };
 
   const topBarWrapperTheme =

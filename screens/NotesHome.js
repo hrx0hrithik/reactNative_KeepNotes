@@ -49,8 +49,8 @@ export default function NotesHome({ navigation }) {
         deleteNote(noteId);
       }
     }
-    // console.log(recentNote)
-  }, [allNotes]);
+    // console.log(noteId)
+  }, [allNotes, noteId]);
 
   const handleNoteOnPress = (item) => {
     editNote(item);
@@ -105,7 +105,6 @@ export default function NotesHome({ navigation }) {
           </View>
         )}
         <BottomBar navigation={navigation} />
-        {/* <AddNote /> */}
       </SafeAreaView>
       <StatusBar
         backgroundColor={autoTheme === "light" ? "#e9f1f7" : "#12121a"}

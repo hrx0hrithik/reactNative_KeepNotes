@@ -1,6 +1,8 @@
-import React, { createContext, useEffect, useState } from "react";
+import React, { createContext, useCallback, useEffect, useState } from "react";
 import { formattedDateNTime } from "../utility/dates";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { MMKV } from "react-native-mmkv";
+
+export const storage = new MMKV();
 
 export const NoteContext = createContext();
 
@@ -13,19 +15,18 @@ const NoteProvider = ({ children }) => {
   // const [deletedNotes, setDeletedNotes] = useState([])
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchData = () => {
       let keys = [];
-      let values = null;
-  
+      let values = [];
+
       try {
-        keys = await AsyncStorage.getAllKeys();
+        keys = storage.getAllKeys();
         if (keys.length > 0) {
-          values = await AsyncStorage.multiGet(keys);
-  
-          // Parse JSON strings and accumulate objects
-          const parsedValues = values.map(([key, value]) => JSON.parse(value));
-          // console.log(parsedValues);
-          setAllNotes(parsedValues);
+          values = keys.map((key) => {
+            const value = storage.getString(key);
+            return JSON.parse(value);
+          });
+          setAllNotes(values);
         } else {
           setAllNotes([]); // Empty array if no keys found
         }
@@ -33,43 +34,57 @@ const NoteProvider = ({ children }) => {
         console.error(error);
       }
     };
-  
+
     fetchData();
   }, []);
-  
 
-  const savingNote = () => {
-    if (currentNote) {
-      // update existing note
-      const updatedNotes = allNotes.map((note) =>
-        note.noteId === currentNote.noteId
-          ? { ...note, title, description, editedAt: new Date() }
-          : note
-      );
-      setAllNotes(updatedNotes);
-      setCurrentNote(null);
-    } else {
+  const savingNote = useCallback(() => {
+    if (!currentNote) {
+      const newNoteId = noteId;
       const newNote = {
-        title: title,
-        description: description,
-        noteId: noteId,
+        title,
+        description,
+        noteId: newNoteId,
         editedAt: formattedDateNTime,
       };
-      const storeData = async (value, id) => {
+      const storeData = (value, id) => {
         try {
           const jsonValue = JSON.stringify(value);
-          await AsyncStorage.setItem(id, jsonValue);
+          storage.set(id, jsonValue);
         } catch (e) {
           console.error(e);
         }
       };
-      storeData(newNote, noteId);
+
+      // console.log(newNote, "New Note");
+      storeData(newNote, newNoteId);
       setAllNotes([newNote, ...allNotes]);
       setTitle("");
       setDescription("");
+    } else {
+      const updatedNotes = allNotes.map((note) =>
+        note.noteId === currentNote.noteId
+          ? { ...note, title, description, editedAt: formattedDateNTime }
+          : note
+      );
+
+      // Update the note in MMKV storage
+      try {
+        const updatedNote = updatedNotes.find(
+          (note) => note.noteId === currentNote.noteId
+        );
+        if (updatedNote) {
+          const jsonValue = JSON.stringify(updatedNote);
+          storage.set(currentNote.noteId, jsonValue);
+        }
+      } catch (e) {
+        console.error(e);
+      }
+
+      setAllNotes(updatedNotes);
+      setCurrentNote(null);
     }
-    // console.log(noteId);
-  };
+  }, [title, description, noteId, currentNote, allNotes]);
 
   const editNote = (note) => {
     setCurrentNote(note);
@@ -77,15 +92,15 @@ const NoteProvider = ({ children }) => {
     setDescription(note.description);
   };
 
-  const deleteNote = async(id) => {
+  const deleteNote = (id) => {
     // const noteToDelete = allNotes.find((n) => n.noteId === id )
     // setDeletedNotes([noteToDelete, ...deletedNotes])
     const updatedNotes = allNotes.filter((note) => note.noteId !== id);
     try {
-      await AsyncStorage.removeItem(id)
+      storage.delete(id);
       setAllNotes(updatedNotes);
-    } catch(e) {
-      console.error(e)
+    } catch (e) {
+      console.error(e);
     }
   };
 
