@@ -24,10 +24,11 @@ const NoteBox = ({ title, description }) => {
 const styles = StyleSheet.create({
   noteWrapper: {
     borderWidth: 1,
-    borderRadius: 10,
-    paddingHorizontal: 12,
-    paddingVertical: 4,
+    borderRadius: 14,
+    paddingHorizontal: 14,
+    paddingVertical: 10,
     borderColor: "#aaa",
+    margin: 5,
   },
   noteTitle: {
     fontWeight: "600",

@@ -92,3 +92,37 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 });
+
+// import { View, Text, ScrollView } from "react-native";
+// import MasonryList from '@react-native-seoul/masonry-list';
+// // import MasonryList from "reanimated-masonry-list";
+// import NoteBox from "../components/NoteBox";
+// import { useContext } from "react";
+// import { NoteContext } from "../context/NoteContext";
+
+// const NewRoute = () => {
+//     const { allNotes } = useContext(NoteContext)
+//   return (
+//     // <ScrollView>
+//       <MasonryList
+//         data={allNotes}
+//         keyExtractor={(item) => item.noteId}
+//         numColumns={2}
+//         // showsVerticalScrollIndicator={false}
+//         renderItem={({ item, index }) => (
+//           // <Pressable key={index} onPress={() => handleNoteOnPress(item)}>
+//           <NoteBox
+//             key={index}
+//             title={item.title}
+//             description={item.description}
+//             image={item.image}
+//             noteId={item.noteId}
+//           />
+//           // </Pressable>
+//         )}
+//       />
+//     // </ScrollView>
+//   );
+// };
+
+// export default NewRoute;

@@ -36,7 +36,7 @@ const SearchBar = ({ isFullWidth, setIsFullWidth, navigation }) => {
         </Pressable>
         <TextInput
           placeholder="Search your notes"
-          placeholderTextColor={searchIconColor}
+          placeholderTextColor="#aaa"
           onChangeText={() => setSearchText}
           value={searchText}
           style={styles.searchBar}
@@ -76,7 +76,7 @@ const SearchBar = ({ isFullWidth, setIsFullWidth, navigation }) => {
 const styles = StyleSheet.create({
   searchBarWrapper: {
     borderRadius: 24,
-    height: 45,
+    height: 50,
     marginVertical: 18,
     marginHorizontal: 12,
     flexDirection: "row",

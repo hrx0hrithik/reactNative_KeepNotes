@@ -1,7 +1,8 @@
 import "react-native-gesture-handler";
+import 'react-native-reanimated';
 import { useContext, useEffect } from "react";
 import { View, useColorScheme, StatusBar } from "react-native";
-import { NavigationContainer, DarkTheme } from "@react-navigation/native";
+import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import ThemeProvider, { ThemeContext } from "./context/ThemeContext";
@@ -148,41 +149,42 @@ function App() {
     appTheme === "light" ? lightThemeBackground : darkThemeBackground;
 
   return (
-    <ThemeProvider>
-      <ActionSheetProvider>
-        <NoteProvider>
-          <NavigationContainer>
-            <Stack.Navigator
-              screenOptions={{
-                headerMode: "screen",
-                headerTintColor: textTheme,
-                headerStyle: backgroundTheme,
-              }}
-              sceneContainerStyle={{ backgroundColor: "black" }}
-            >
-              <Stack.Screen
-                name="Root"
-                component={Root}
-                options={{ headerShown: false }}
-              />
-              <Stack.Screen
-                name="AddNote"
-                component={AddNote}
-                options={{ headerShown: false }}
-              />
-              <Stack.Screen name="Setting" component={Setting} />
-              <Stack.Screen name="Edit Label" component={NewLabel} />
-              <Stack.Screen name="Help" component={Help} />
-              <Stack.Screen name="NewRoute" component={NewRoute} />
-            </Stack.Navigator>
-          </NavigationContainer>
-          <StatusBar
-            backgroundColor={appTheme === "light" ? "#fff" : "#12121a"}
-            barStyle={appTheme === "light" ? "dark-content" : "light-content"}
-          />
-        </NoteProvider>
-      </ActionSheetProvider>
-    </ThemeProvider>
+      <ThemeProvider>
+        <ActionSheetProvider>
+          <NoteProvider>
+            <NavigationContainer>
+              <Stack.Navigator
+                screenOptions={{
+                  headerMode: "screen",
+                  headerTintColor: textTheme,
+                  headerStyle: backgroundTheme,
+                }}
+                sceneContainerStyle={{ backgroundColor: "black" }}
+              >
+                <Stack.Screen
+                  name="Root"
+                  component={Root}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="AddNote"
+                  component={AddNote}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen name="Setting" component={Setting} />
+                <Stack.Screen name="Edit Label" component={NewLabel} />
+                <Stack.Screen name="Help" component={Help} />
+                <Stack.Screen name="NewRoute" component={NewRoute} />
+              </Stack.Navigator>
+            </NavigationContainer>
+            <StatusBar
+              backgroundColor={appTheme === "light" ? "#fff" : "#12121a"}
+              barStyle={appTheme === "light" ? "dark-content" : "light-content"}
+            />
+          </NoteProvider>
+        </ActionSheetProvider>
+      </ThemeProvider>
+    // </GestureHandlerRootView>
   );
 }
 

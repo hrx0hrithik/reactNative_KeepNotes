@@ -8,7 +8,8 @@ import {
   ToastAndroid,
   View,
 } from "react-native";
-import { SimpleGrid } from "react-native-super-grid";
+// import { SimpleGrid } from "react-native-super-grid";
+import MasonryList from '@react-native-seoul/masonry-list';
 import { SafeAreaView } from "react-native-safe-area-context";
 import { MaterialIcons } from "@expo/vector-icons";
 
@@ -67,11 +68,12 @@ export default function NotesHome({ navigation }) {
         />
         {allNotes.length > 0 ? (
           <ScrollView style={styles.scrollViewNotes}>
-            <SimpleGrid
+            <MasonryList
               style={styles.NoteBoxWrapper}
-              itemDimension={isFullWidth ? 500 : 130}
-              spacing={6}
-              maxItemsPerRow={3}
+              numColumns={isFullWidth ? 1 : 2}
+              // itemDimension={isFullWidth ? 500 : 130}
+              // spacing={6}
+              // maxItemsPerRow={3}
               data={allNotes}
               keyExtractor={(item) => item.noteId}
               renderItem={({ item, index }) => (

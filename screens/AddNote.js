@@ -54,7 +54,7 @@ const AddNote = () => {
             style={[styles.noteTitle, themeContainerStyle]}
             autoCapitalize="sentences"
             placeholder="Title"
-            placeholderTextColor={autoTheme === "light" ? "#000" : "#fff"}
+            placeholderTextColor="#aaa"
             enterKeyHint="next"
             maxLength={100}
             value={title}
@@ -76,7 +76,7 @@ const AddNote = () => {
             onChangeText={handleDescriptionChange}
             style={[styles.noteDesc, themeContainerStyle]}
             placeholder="Note"
-            placeholderTextColor={autoTheme === "light" ? "#000" : "#fff"}
+            placeholderTextColor="#aaa"
           />
         </ScrollView>
         <KeyboardAvoidingView />

@@ -189,7 +189,7 @@ const InputBottomBar = () => {
 
   const InputBottomColorPaletMenu = () => {
     Keyboard.dismiss();
-    showActionSheetWithOptions(props);
+    // showActionSheetWithOptions(props);
   };
 
   return (
@@ -217,7 +217,7 @@ const InputBottomBar = () => {
           size={22}
           color={iconThemeColor}
         />
-        <Text style={styles.editedText}>
+        <Text style={[styles.editedText, {color : autoTheme=== "light" ? "#444": "#ccc"}]}>
           Edited {editDate === currentDate ? editTime : editDate}
         </Text>
       </View>
@@ -248,9 +248,9 @@ const styles = StyleSheet.create({
     padding: 4,
   },
   editedText: {
-    fontSize: 12,
-    marginLeft: 8,
-    color: "#999",
+    fontSize: 14,
+    marginLeft: 12,
+    color: "#000",
     textAlign: "center",
     textAlignVertical: "center",
   },
