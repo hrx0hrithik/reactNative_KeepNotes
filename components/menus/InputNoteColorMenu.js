@@ -13,7 +13,7 @@ const options = [
   { label: 'Option 9', onPress: () => console.log('Option 9 selected') },
 ];
 
-export const ActionSheetButton = ({ options }) => {
+export const InputNoteColorMenu = () => {
   const [modalVisible, setModalVisible] = useState(false);
 
   return (

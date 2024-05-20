@@ -3,16 +3,25 @@ import { StyleSheet, Text, View } from "react-native";
 import { ThemeContext } from "../context/ThemeContext";
 import { darkThemeBackground, lightThemeBackground } from "../utility/themes";
 
-const NoteBox = ({ title, description }) => {
+const NoteBox = ({ title, description, isSelected }) => {
   const { autoTheme } = useContext(ThemeContext);
 
   const noteWrapperTheme =
     autoTheme === "light" ? lightThemeBackground : darkThemeBackground;
   const noteTitleTheme = { color: autoTheme === "light" ? "#000" : "#fff" };
   const noteDescTheme = { color: autoTheme === "light" ? "#777" : "#bbb" };
+  const noteWrapperBorder = isSelected
+    ? {
+        borderWidth: 2,
+        borderColor: "blue",
+      }
+    : {
+        borderWidth: 1,
+        borderColor: "#aaa",
+      };
 
   return (
-    <View style={[styles.noteWrapper, noteWrapperTheme]}>
+    <View style={[styles.noteWrapper, noteWrapperTheme, noteWrapperBorder]}>
       <Text style={[styles.noteTitle, noteTitleTheme]}>{title}</Text>
       <Text numberOfLines={10} style={[styles.noteDesc, noteDescTheme]}>
         {description}
@@ -23,12 +32,12 @@ const NoteBox = ({ title, description }) => {
 
 const styles = StyleSheet.create({
   noteWrapper: {
-    borderWidth: 1,
     borderRadius: 14,
     paddingHorizontal: 14,
     paddingVertical: 10,
-    borderColor: "#aaa",
     margin: 5,
+    // borderWidth: 1,
+    // borderColor: "#aaa",
   },
   noteTitle: {
     fontWeight: "600",

@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import {
+  Keyboard,
   Pressable,
   ScrollView,
   StatusBar,
@@ -8,8 +9,7 @@ import {
   ToastAndroid,
   View,
 } from "react-native";
-// import { SimpleGrid } from "react-native-super-grid";
-import MasonryList from '@react-native-seoul/masonry-list';
+import MasonryList from "@react-native-seoul/masonry-list";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { MaterialIcons } from "@expo/vector-icons";
 
@@ -21,6 +21,8 @@ import * as NavigationBar from "expo-navigation-bar";
 
 import { NoteContext } from "../context/NoteContext";
 import { ThemeContext } from "../context/ThemeContext";
+import SelectionModeTopBar from "../components/SelectionModeTopBar";
+import { darkBarBackground, lightBarBackground } from "../utility/themes";
 
 export default function NotesHome({ navigation }) {
   const { allNotes, noteId, deleteNote, editNote } = useContext(NoteContext);
@@ -30,11 +32,22 @@ export default function NotesHome({ navigation }) {
     autoTheme === "light" ? styles.lightContainer : styles.darkContainer;
 
   const [isFullWidth, setIsFullWidth] = useState(false);
+  const [selectedNotes, setSelectedNotes] = useState([]);
+  const [selectionMode, setSelectionMode] = useState(false);
 
   NavigationBar.setBackgroundColorAsync(
     autoTheme === "light" ? "#e9f1f7" : "#20212e"
   );
   NavigationBar.setButtonStyleAsync(autoTheme === "light" ? "dark" : "light");
+
+  const getStatusBarBackgroundColor = () => {
+    if (autoTheme === "light") {
+      return selectionMode ? `${lightBarBackground.backgroundColor}` : "#e9f1f7";
+    } else if (autoTheme === "dark") {
+      return selectionMode ? `${darkBarBackground.backgroundColor}` : "#12121a";
+    }
+    return "#e9f1f7"; // default color if none of the conditions are met
+  };
 
   useEffect(() => {
     const recentNote = allNotes.find((n) => n.noteId === noteId);
@@ -54,36 +67,70 @@ export default function NotesHome({ navigation }) {
   }, [allNotes, noteId]);
 
   const handleNoteOnPress = (item) => {
-    editNote(item);
-    navigation.push("AddNote");
+    if (selectionMode) {
+      handleNoteSelection(item.noteId);
+    } else {
+      editNote(item);
+      navigation.push("AddNote");
+    }
+  };
+
+  const handleNoteOnLongPress = (item) => {
+    Keyboard.dismiss();
+    setSelectionMode(true);
+    handleNoteSelection(item.noteId);
+  };
+
+  const handleNoteSelection = (noteId) => {
+    setSelectedNotes((prevSelectedNotes) => {
+      const newSelectedNotes = prevSelectedNotes.includes(noteId)
+        ? prevSelectedNotes.filter((id) => id !== noteId)
+        : [...prevSelectedNotes, noteId];
+
+      if (newSelectedNotes.length === 0) {
+        setSelectionMode(false);
+      }
+
+      return newSelectedNotes;
+    });
   };
 
   return (
     <>
       <SafeAreaView style={[styles.container, themeContainerStyle]}>
-        <SearchBar
-          isFullWidth={isFullWidth}
-          setIsFullWidth={setIsFullWidth}
-          navigation={navigation}
-        />
+        {selectionMode ? (
+          <SelectionModeTopBar
+            length={selectedNotes.length}
+            setSelectedNotes={setSelectedNotes}
+            setSelectionMode={setSelectionMode}
+          />
+        ) : (
+          <SearchBar
+            isFullWidth={isFullWidth}
+            setIsFullWidth={setIsFullWidth}
+            navigation={navigation}
+          />
+        )}
         {allNotes.length > 0 ? (
           <ScrollView style={styles.scrollViewNotes}>
             <MasonryList
               style={styles.NoteBoxWrapper}
               numColumns={isFullWidth ? 1 : 2}
-              // itemDimension={isFullWidth ? 500 : 130}
-              // spacing={6}
-              // maxItemsPerRow={3}
               data={allNotes}
               keyExtractor={(item) => item.noteId}
               renderItem={({ item, index }) => (
-                <Pressable key={index} onPress={() => handleNoteOnPress(item)}>
+                <Pressable
+                  key={index}
+                  onPress={() => handleNoteOnPress(item)}
+                  onLongPress={() => handleNoteOnLongPress(item)}
+                >
                   <NoteBox
                     key={item.noteId}
                     title={item.title}
                     description={item.description}
                     image={item.image}
-                    noteId={item.noteId}
+                    // noteId={item.noteId}
+                    isSelected={selectedNotes.includes(item.noteId)}
                   />
                 </Pressable>
               )}
@@ -108,9 +155,7 @@ export default function NotesHome({ navigation }) {
         )}
         <BottomBar navigation={navigation} />
       </SafeAreaView>
-      <StatusBar
-        backgroundColor={autoTheme === "light" ? "#e9f1f7" : "#12121a"}
-      />
+      <StatusBar backgroundColor={getStatusBarBackgroundColor()} />
     </>
   );
 }
