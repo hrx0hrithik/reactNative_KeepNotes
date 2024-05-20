@@ -1,5 +1,5 @@
 import "react-native-gesture-handler";
-import 'react-native-reanimated';
+import "react-native-reanimated";
 import { useContext, useEffect } from "react";
 import { View, useColorScheme, StatusBar } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
@@ -34,7 +34,7 @@ import {
   lightThemeText,
 } from "./utility/themes";
 import CustomDrawerContent from "./components/LeftDrawer";
-import { ActionSheetProvider } from "@expo/react-native-action-sheet";
+import { MenuProvider } from "react-native-popup-menu";
 
 function EmptyScreen() {
   return <View />;
@@ -149,8 +149,10 @@ function App() {
     appTheme === "light" ? lightThemeBackground : darkThemeBackground;
 
   return (
-      <ThemeProvider>
-        <ActionSheetProvider>
+    <ThemeProvider>
+        <MenuProvider
+          customStyles={{ backdrop: { backgroundColor: "#000", opacity: 0.5 } }}
+        >
           <NoteProvider>
             <NavigationContainer>
               <Stack.Navigator
@@ -182,9 +184,8 @@ function App() {
               barStyle={appTheme === "light" ? "dark-content" : "light-content"}
             />
           </NoteProvider>
-        </ActionSheetProvider>
-      </ThemeProvider>
-    // </GestureHandlerRootView>
+        </MenuProvider>
+    </ThemeProvider>
   );
 }
 

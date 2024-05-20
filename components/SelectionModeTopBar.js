@@ -15,6 +15,7 @@ import {
   lightThemeIcon,
   lightThemeText,
 } from "../utility/themes";
+import SelectionModeThreeDotMenu from "./menus/SelectionModeThreeDotMenu";
 
 const SelectionModeTopBar = ({ length, setSelectionMode, setSelectedNotes }) => {
   const { autoTheme } = useContext(ThemeContext);
@@ -86,14 +87,15 @@ const SelectionModeTopBar = ({ length, setSelectionMode, setSelectedNotes }) => 
             color={barIconColor}
           />
         </Pressable>
-        <Pressable>
+        {/* <Pressable>
           <Entypo
             style={styles.rightSearchIcon}
             name="dots-three-vertical"
             size={20}
             color={barIconColor}
           />
-        </Pressable>
+        </Pressable> */}
+        <SelectionModeThreeDotMenu autoTheme={autoTheme} />
       </View>
     </View>
   );
