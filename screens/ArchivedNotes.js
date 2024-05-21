@@ -35,7 +35,6 @@ const ArchivedNotes = () => {
             Your Archived notes appear here
           </Text>
         </View>
-        <BottomBar />
       </SafeAreaView>
   );
 };

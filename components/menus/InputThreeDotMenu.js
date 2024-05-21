@@ -22,8 +22,10 @@ import {
   lightThemeIcon,
   lightThemeText,
 } from "../../utility/themes";
+import { useNavigation } from "@react-navigation/native";
 
-const InputThreeDotMenu = ({ autoTheme }) => {
+const InputThreeDotMenu = ({ autoTheme, currentNote }) => {
+  const navigation = useNavigation()
   const iconThemeColor =
     autoTheme === "light" ? lightThemeIcon.color : darkThemeIcon.color;
   const backgroundThemeColor =
@@ -48,6 +50,15 @@ const InputThreeDotMenu = ({ autoTheme }) => {
       activeOpacity: 70,
     },
   };
+
+  const handleDeleteNote = () => {
+    if (!currentNote) {
+      navigation.goBack();
+    } else {
+      deleteNote(currentNote.noteId);
+      navigation.goBack();
+    }
+  }
   
   return (
     <Menu renderer={renderers.SlideInMenu}>
@@ -63,7 +74,7 @@ const InputThreeDotMenu = ({ autoTheme }) => {
         <Entypo name="dots-three-vertical" size={18} color={iconThemeColor} />
       </MenuTrigger>
       <MenuOptions customStyles={optionsStyles}>
-        <MenuOption onSelect={() => alert(`Save`)}>
+        <MenuOption onSelect={() => handleDeleteNote()}>
           <AntDesign name="delete" size={24} color={iconThemeColor} />
           <Text style={[textTheme, styles.optionText]}>Delete</Text>
         </MenuOption>

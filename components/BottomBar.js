@@ -4,7 +4,12 @@ import { AntDesign, Ionicons, Feather } from "@expo/vector-icons";
 import AddNoteBtn from "./AddNoteBtn";
 import { ThemeContext } from "../context/ThemeContext";
 import { useNavigation } from "@react-navigation/native";
-import { darkBarBackground, darkThemeIcon, lightBarBackground, lightThemeIcon } from "../utility/themes";
+import {
+  darkBarBackground,
+  darkThemeIcon,
+  lightBarBackground,
+  lightThemeIcon,
+} from "../utility/themes";
 
 const BottomBar = () => {
   const { autoTheme } = useContext(ThemeContext);
@@ -12,7 +17,8 @@ const BottomBar = () => {
 
   const bottomBarTheme =
     autoTheme === "light" ? lightBarBackground : darkBarBackground;
-  const barIconsColor = autoTheme === "light" ? lightThemeIcon.color : darkThemeIcon.color
+  const barIconsColor =
+    autoTheme === "light" ? lightThemeIcon.color : darkThemeIcon.color;
 
   return (
     <View style={[styles.bottomBar, bottomBarTheme]}>
@@ -53,7 +59,7 @@ const BottomBar = () => {
           />
         </Pressable>
       </View>
-      <AddNoteBtn />
+        <AddNoteBtn />
     </View>
   );
 };

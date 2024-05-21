@@ -5,7 +5,6 @@ import {
   AntDesign,
   MaterialIcons,
   MaterialCommunityIcons,
-  Entypo,
 } from "@expo/vector-icons";
 import {
   darkBarBackground,
@@ -95,7 +94,7 @@ const SelectionModeTopBar = ({ length, setSelectionMode, setSelectedNotes }) => 
             color={barIconColor}
           />
         </Pressable> */}
-        <SelectionModeThreeDotMenu autoTheme={autoTheme} />
+        <SelectionModeThreeDotMenu autoTheme={autoTheme} setSelectionMode={setSelectionMode} />
       </View>
     </View>
   );
@@ -109,6 +108,7 @@ const styles = StyleSheet.create({
     paddingBottom: 18,
     paddingHorizontal: 2,
     marginBottom: 20,
+    marginTop: 0,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",

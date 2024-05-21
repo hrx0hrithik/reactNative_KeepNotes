@@ -12,28 +12,29 @@ const NoteProvider = ({ children }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [noteId, setNoteId] = useState(null);
+  const [selectedNotes, setSelectedNotes] = useState([]);
   // const [deletedNotes, setDeletedNotes] = useState([])
 
-  useEffect(() => {
-    const fetchData = () => {
-      let keys = [];
-      let values = [];
+  const fetchData = () => {
+    let keys = [];
+    let values = [];
 
-      try {
-        keys = storage.getAllKeys();
-        if (keys.length > 0) {
-          values = keys.map((key) => {
-            const value = storage.getString(key);
-            return JSON.parse(value);
-          });
-          setAllNotes(values);
-        } else {
-          setAllNotes([]); // Empty array if no keys found
-        }
-      } catch (error) {
-        console.error(error);
+    try {
+      keys = storage.getAllKeys();
+      if (keys.length > 0) {
+        values = keys.map((key) => {
+          const value = storage.getString(key);
+          return JSON.parse(value);
+        });
+        setAllNotes(values);
+      } else {
+        setAllNotes([]); // Empty array if no keys found
       }
-    };
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  useEffect(() => {
 
     fetchData();
   }, []);
@@ -46,6 +47,7 @@ const NoteProvider = ({ children }) => {
         description,
         noteId: newNoteId,
         editedAt: formattedDateNTime,
+        createdAt: formattedDateNTime,
       };
       const storeData = (value, id) => {
         try {
@@ -104,6 +106,16 @@ const NoteProvider = ({ children }) => {
     }
   };
 
+  const deleteSelectedNotes = () => {
+    selectedNotes.forEach(note => {
+        storage.delete(note);
+        // console.log(note, "Deleted");
+    });
+    setSelectedNotes([])
+    fetchData()
+  };
+  
+
   return (
     <NoteContext.Provider
       value={{
@@ -120,6 +132,9 @@ const NoteProvider = ({ children }) => {
         deleteNote,
         noteId,
         setNoteId,
+        selectedNotes,
+        setSelectedNotes,
+        deleteSelectedNotes
       }}
     >
       {children}

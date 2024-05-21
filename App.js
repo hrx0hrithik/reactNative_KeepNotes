@@ -53,6 +53,7 @@ function Root() {
   }, [rootTheme]);
 
   const drawerStyle = {
+    width: 320,
     backgroundColor:
       rootTheme === "light"
         ? lightThemeBackground.backgroundColor
@@ -78,7 +79,7 @@ function Root() {
       drawerContent={(props) => <CustomDrawerContent {...props} />}
     >
       <Drawer.Screen
-        name="NotesHome"
+        name="Notes"
         component={NotesHome}
         options={{
           headerShown: false,

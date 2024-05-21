@@ -1,5 +1,5 @@
 import { Keyboard, StyleSheet, Text } from "react-native";
-import React from "react";
+import React, { useContext } from "react";
 
 import {
   Menu,
@@ -14,8 +14,11 @@ import {
   lightBarBackground,
   lightThemeText,
 } from "../../utility/themes";
+import { NoteContext } from "../../context/NoteContext";
 
-const SelectionModeThreeDotMenu = ({ autoTheme }) => {
+const SelectionModeThreeDotMenu = ({ autoTheme, setSelectionMode }) => {
+
+  const { deleteSelectedNotes } = useContext(NoteContext)
 
   const backgroundThemeColor =
     autoTheme === "light"
@@ -43,6 +46,11 @@ const SelectionModeThreeDotMenu = ({ autoTheme }) => {
     },
   };
 
+  const deleteOnSelect = () => {
+    setSelectionMode(false);
+    deleteSelectedNotes()
+  }
+
   return (
     <Menu>
       <MenuTrigger
@@ -53,11 +61,11 @@ const SelectionModeThreeDotMenu = ({ autoTheme }) => {
           },
         }}
       >
-        <Entypo name="dots-three-vertical" size={20} color="white" />
+        <Entypo name="dots-three-vertical" size={20} color={textThemeColor} />
       </MenuTrigger>
       <MenuOptions customStyles={optionsStyles}>
-        <MenuOption text="Archive" onSelect={() => alert(`Save`)} />
-        <MenuOption text="Delete" onSelect={() => alert(`Delete`)}/>
+        <MenuOption text="Archive" />
+        <MenuOption text="Delete" onSelect={() => deleteOnSelect()}/>
         <MenuOption text="Make a copy" />
         <MenuOption text="Send" />
         <MenuOption text="Copy to Google Docs" />

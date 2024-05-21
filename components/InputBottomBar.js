@@ -47,14 +47,6 @@ const InputBottomBar = () => {
   return (
     <View style={[styles.bottomBarWrapper, bottomBarWrapperTheme]}>
       <View style={{ flexDirection: "row" }}>
-        {/* <Pressable onPress={InputBottomAddNoteElementMenu}>
-          <Octicons
-            style={styles.leftBottomBtn}
-            name="diff-added"
-            size={22}
-            color={iconThemeColor}
-          />
-        </Pressable> */}
         <InputAddElemMenu autoTheme={autoTheme} />
         <Pressable onPress={InputBottomColorPaletMenu}>
           <MaterialCommunityIcons
@@ -79,13 +71,8 @@ const InputBottomBar = () => {
           Edited {editDate === currentDate ? editTime : editDate}
         </Text>
       </View>
-      {/* <Pressable
-        onPress={InputBottomThreeDotMenu}
-        style={{ padding: 4, marginRight: 6 }}
-      >
-        <Entypo name="dots-three-vertical" size={18} color={iconThemeColor} />
-      </Pressable> */}
-      <InputThreeDotMenu />
+
+      <InputThreeDotMenu currentNote={currentNote} />
     </View>
   );
 };

@@ -25,29 +25,19 @@ import SelectionModeTopBar from "../components/SelectionModeTopBar";
 import { darkBarBackground, lightBarBackground } from "../utility/themes";
 
 export default function NotesHome({ navigation }) {
-  const { allNotes, noteId, deleteNote, editNote } = useContext(NoteContext);
+  const { allNotes, noteId, deleteNote, editNote, selectedNotes, setSelectedNotes } = useContext(NoteContext);
   const { autoTheme } = useContext(ThemeContext);
 
   const themeContainerStyle =
     autoTheme === "light" ? styles.lightContainer : styles.darkContainer;
 
   const [isFullWidth, setIsFullWidth] = useState(false);
-  const [selectedNotes, setSelectedNotes] = useState([]);
   const [selectionMode, setSelectionMode] = useState(false);
 
   NavigationBar.setBackgroundColorAsync(
     autoTheme === "light" ? "#e9f1f7" : "#20212e"
   );
   NavigationBar.setButtonStyleAsync(autoTheme === "light" ? "dark" : "light");
-
-  const getStatusBarBackgroundColor = () => {
-    if (autoTheme === "light") {
-      return selectionMode ? `${lightBarBackground.backgroundColor}` : "#e9f1f7";
-    } else if (autoTheme === "dark") {
-      return selectionMode ? `${darkBarBackground.backgroundColor}` : "#12121a";
-    }
-    return "#e9f1f7"; // default color if none of the conditions are met
-  };
 
   useEffect(() => {
     const recentNote = allNotes.find((n) => n.noteId === noteId);
@@ -97,7 +87,7 @@ export default function NotesHome({ navigation }) {
 
   return (
     <>
-      <SafeAreaView style={[styles.container, themeContainerStyle]}>
+      <View style={[styles.container, themeContainerStyle]}>
         {selectionMode ? (
           <SelectionModeTopBar
             length={selectedNotes.length}
@@ -154,8 +144,8 @@ export default function NotesHome({ navigation }) {
           </View>
         )}
         <BottomBar navigation={navigation} />
-      </SafeAreaView>
-      <StatusBar backgroundColor={getStatusBarBackgroundColor()} />
+      </View>
+      <StatusBar backgroundColor="taransparent" />
     </>
   );
 }

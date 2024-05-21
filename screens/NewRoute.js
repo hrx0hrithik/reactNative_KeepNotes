@@ -1,22 +1,18 @@
-import React, { useState } from "react";
 import {
   View,
   Text,
-  TouchableOpacity,
-  Modal,
-  ScrollView,
   StyleSheet,
-  TouchableWithoutFeedback,
-  Button,
 } from "react-native";
-import InputAddElemMenu from "../components/menus/InputAddElemMenu";
+import BottomBar from "../components/BottomBar";
 
 export default function NewRoute() {
   return (
-    <View>
+    <>
+    <View style={{ flex:1 }}>
       <Text>New Route</Text>
-      <InputAddElemMenu />
     </View>
+      <BottomBar />
+    </>
   );
 }
 

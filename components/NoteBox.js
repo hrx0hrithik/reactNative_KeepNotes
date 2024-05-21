@@ -7,13 +7,19 @@ const NoteBox = ({ title, description, isSelected }) => {
   const { autoTheme } = useContext(ThemeContext);
 
   const noteWrapperTheme =
-    autoTheme === "light" ? lightThemeBackground : darkThemeBackground;
+    autoTheme === "light"
+      ? isSelected
+        ? { backgroundColor: "#eee" }
+        : lightThemeBackground
+      : isSelected
+      ? { backgroundColor: "#222" }
+      : darkThemeBackground;
   const noteTitleTheme = { color: autoTheme === "light" ? "#000" : "#fff" };
   const noteDescTheme = { color: autoTheme === "light" ? "#777" : "#bbb" };
   const noteWrapperBorder = isSelected
     ? {
-        borderWidth: 2,
-        borderColor: "blue",
+        borderWidth: 3,
+        borderColor: "#4c8ced",
       }
     : {
         borderWidth: 1,
@@ -48,7 +54,6 @@ const styles = StyleSheet.create({
     marginVertical: 4,
     fontSize: 14,
   },
-
 });
 
 export default NoteBox;
